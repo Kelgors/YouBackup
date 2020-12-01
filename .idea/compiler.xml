@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ubackup-ftp" />
+        <module name="ubackup" />
+        <module name="utils" />
+        <module name="ubackup-s3" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="uBackup" target="1.8" />
+      <module name="uBackupFTP" target="1.8" />
+      <module name="uBackupS3" target="1.8" />
+      <module name="Utils" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

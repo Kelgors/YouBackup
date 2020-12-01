@@ -1,0 +1,6 @@
+name: uBackup-S3
+version: 1.0.0
+author: Kelgors
+main: me.kelgors.ubackup.s3.uBackupS3Plugin
+api-version: 1.16
+depend: [ uBackup ]

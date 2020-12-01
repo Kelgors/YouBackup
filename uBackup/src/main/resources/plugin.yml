@@ -1,0 +1,17 @@
+name: uBackup
+version: 1.0.0
+author: Kelgors
+main: me.kelgors.ubackup.uBackupPlugin
+api-version: 1.16
+softdepend: [ Vault ]
+commands:
+  ubackup:
+    description: ubackup base command
+    usage: /ubackup <subcommand>
+permissions:
+  ubackup.*:
+    description: Access to all uBackup commands
+  ubackup.help:
+    description: Can show uBackup help
+  ubackup.now:
+    description: Can perform a backup now

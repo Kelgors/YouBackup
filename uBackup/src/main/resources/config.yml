@@ -1,0 +1,28 @@
+worlds:
+  world:
+    filename: "{timestamp}.zip" #"{timestamp}-{date}-{time}-{uuid}-{world}.zip"
+    compression: zip # none|zip (with plugin: 7z|gz|tar)
+    rotation: 5
+    # S3 configuration (with external plugin)
+    destination:
+      type: s3
+      bucket: your_bucket
+      path: backups/home
+      region: global
+      # unsecure
+      client_id: insert_your_client_id
+      client_secret: insert_your_secret
+      # secure
+      profile: mc-backup
+    # # FTP configuration
+    # destination:
+    #   type: ftp
+    #   host: "192.168.0.1"
+    #   port: 21
+    #   username: admin
+    #   password: password
+    #   path: backups/worlds
+    # # Server directory
+    # destination:
+    #   type: file
+    #   path: backups/worlds
