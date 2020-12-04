@@ -1,10 +1,9 @@
 package me.kelgors.ubackup.commands.ubackup;
 
-import me.kelgors.ubackup.WorldConfiguration;
+import me.kelgors.ubackup.configuration.BackupConfiguration;
 import me.kelgors.ubackup.uBackupPlugin;
 import me.kelgors.utils.chat.ChatUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 public class NowSubCommand extends AbsWorldRelatedSubCommand {
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("me.kelgors.me.kelgors.me.kelgors.ubackup.now") || player.hasPermission("me.kelgors.me.kelgors.me.kelgors.ubackup.*");
+        return player.hasPermission("ubackup.now") || player.hasPermission("ubackup.*");
     }
 
     @Override
@@ -27,18 +26,13 @@ public class NowSubCommand extends AbsWorldRelatedSubCommand {
             return true;
         }
 
-        final String worldName = args[0];
-        WorldConfiguration config = ((uBackupPlugin) mPlugin).getWorldConfiguration(worldName);
-        World world = getPlugin().getServer().getWorld(worldName);
+        final String profileName = args[0];
+        BackupConfiguration config = ((uBackupPlugin)mPlugin).getProfileConfiguration(profileName);
         if (config == null) {
-            sender.sendMessage(uBackupPlugin.TAG + "Unknown world " + ChatUtils.colorized(ChatColor.BLUE, worldName) + " in uBackup config.yml");
+            sender.sendMessage(uBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, profileName) + " in uBackup config.yml");
             return true;
         }
-        if (world == null) {
-            sender.sendMessage(uBackupPlugin.TAG + "World " + ChatUtils.colorized(ChatColor.BLUE, worldName) + " does not exists on your server");
-            return true;
-        }
-        uBackupPlugin.getInstance().save(world, sender)
+        uBackupPlugin.getInstance().save(profileName, sender)
             .whenComplete((result, throwable) -> {
                 sender.sendMessage(String.format("%sBackup(result: %s)", uBackupPlugin.TAG, ChatUtils.colorized(result ? ChatColor.GREEN : ChatColor.RED, String.valueOf(result))));
                 if (throwable != null) {

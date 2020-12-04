@@ -15,8 +15,8 @@
     </properties>
     <modules>
         <module>Utils</module>
-        <module>uBackupS3</module>
         <module>uBackup</module>
+        <module>uBackupS3</module>
         <module>uBackupFTP</module>
     </modules>
     <repositories>

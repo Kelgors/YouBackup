@@ -14,6 +14,8 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="uBackup" target="1.8" />
+      <module name="ubackup-ftp (1)" target="1.8" />
+      <module name="ubackup-ftp (2)" target="1.8" />
       <module name="uBackupFTP" target="1.8" />
       <module name="uBackupS3" target="1.8" />
       <module name="Utils" target="1.8" />

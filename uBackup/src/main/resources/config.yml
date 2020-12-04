@@ -1,3 +1,89 @@
+destinations:
+  backup_file: # the name of you destination profile
+    # save as a file on the local machine
+    type: file
+    path: /home/mcserver/backups
+  my_ftp:
+    # Save file on FTP server (need uBackup-FTP plugin)
+    type: ftp
+    # if true, use sftp protocol, otherwise simple ftp
+    secure: false
+    # ftp connection information
+    host: "192.168.0.1"
+    port: 21
+    # ftp login credentials
+    username: admin
+    password: password
+    # remote directory
+    path: backups
+backups:
+  # your backup name
+  all:
+    # is this backup running or not
+    enabled: true
+    # crontab definition (use https://crontab.guru/ for easier configuration)
+    # Define when your backup is running
+    cron: 0 */6 * * *
+    # your file name after compression
+    # variables:
+    # - timestamp: 1606987858,
+    # - date: 20201231
+    # - time: 235959
+    # - uuid: random uuid like 2cd7957d-dd21-4b32-9424-283e2928b856
+    # - backup: your backup name, here "all"
+    filename: "{date}{time}.zip"
+    # how much backup you keep on your destination
+    rotation: 5
+    # Define what is in the compressed file
+    compression:
+      # define what type of compression is used (zip is native, other types need plugins)
+      type: zip
+      # At least one of these properties are required (worlds, include)
+      worlds:
+        - world
+        - world_nether
+        - world_the_end
+      # include other files to the backup file
+      include:
+        # backup everything in plugins/ directory
+        - plugins/
+      # exclude some files to not be backed up
+      exclude:
+        # but dont backup your dynmap map files
+        - plugins/dynmap/
+        # and dont backup plugin jar files
+        - plugins/*.jar
+    # Define where the backup file will be sent
+    destination:
+      # Send your file to AWS S3 with the plugin uBackup-S3
+      type: s3
+      bucket: your_bucket
+      path: backups/home
+      region: global
+      # unsecure
+      client_id: insert_your_client_id
+      client_secret: insert_your_secret
+      # or secure (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
+      profile: mc-backup
+  plugins:
+    filename: "{timestamp}.zip"
+    cron: 0 0 * * * * # every hour
+    compression:
+      type: zip
+      exclude:
+        - plugins/dynmap/
+      include:
+        - plugins/
+    destination: plugins_ftp
+  worlds:
+    compression:
+      type: zip
+      filename: "{timestamp}.zip"
+      worlds:
+        - world
+        - world_nether
+    destination: worlds_s3
+
 worlds:
   world:
     filename: "{timestamp}.zip" #"{timestamp}-{date}-{time}-{uuid}-{world}.zip"

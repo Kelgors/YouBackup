@@ -1,8 +1,8 @@
 package me.kelgors.ubackup.s3;
 
-import com.google.common.io.Files;
-import me.kelgors.ubackup.WorldConfiguration;
+import me.kelgors.ubackup.configuration.BackupConfiguration;
 import me.kelgors.ubackup.storage.IStorage;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
@@ -16,8 +16,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
@@ -44,20 +42,22 @@ public class S3Storage implements IStorage {
     }
 
     @Override
-    public void prepare(WorldConfiguration config) {
+    public void prepare(BackupConfiguration config) {
         // get config from yaml
-        Map<String, Object> destination = config.destination;
-        mClientId = (String) destination.get("client_id");
-        mClientSecret = (String) destination.get("client_secret");
-        mBucket = (String) destination.get("bucket");
-        mPath = (String) destination.get("path");
-        mRegion = (String) destination.get("region");
-        mProfileName = (String) destination.get("profile");
+        final ConfigurationSection destination = config.destination;
+        mClientId = destination.getString("client_id", null);
+        mClientSecret = destination.getString("client_secret", null);
+        mBucket = destination.getString("bucket", null);
+        mPath = destination.getString("path", null);
+        mRegion = destination.getString("region", "global");
+        mProfileName = destination.getString("profile", "");
         // test connection if relevant
         AwsCredentialsProvider credentials;
         if (mProfileName != null && mProfileName.length() > 0) {
+            mPlugin.getLogger().finer("Prepare AWS with profile mode");
             credentials = ProfileCredentialsProvider.create(mProfileName);
         } else {
+            mPlugin.getLogger().finer("Prepare AWS with credentials mode");
             credentials = StaticCredentialsProvider.create(AwsBasicCredentials.create(mClientId, mClientSecret));
         }
         // create credentials
@@ -70,9 +70,7 @@ public class S3Storage implements IStorage {
     @Override
     public CompletableFuture<Boolean> backup(File file) {
         final Logger logger = mPlugin.getLogger();
-        final LocalDateTime today = LocalDateTime.now();
-        // prepare a filename base on (year)(month)(day)T(hour)(minute)(second)_(world_name).(ext)
-        final String filename = String.format("%d%02d%02dT%02d%02d%02d_%s", today.getYear(), today.getMonth().getValue(), today.getDayOfMonth(), today.getHour(), today.getMinute(), today.getSecond(), file.getName());
+        final String filename = file.getName();
         // prepare request
         final PutObjectRequest request = PutObjectRequest.builder()
                 .key(Paths.get(mPath, filename).toString())
@@ -81,11 +79,17 @@ public class S3Storage implements IStorage {
         // prepare request-body
         final AsyncRequestBody body = AsyncRequestBody.fromFile(file);
         // upload object
-        logger.info(String.format("[S3Storage] Sending %s to s3:%s/%s", file.getName(), mBucket, mPath));
+        logger.info(String.format("[S3Storage] Uploading %s to s3:%s/%s", file.getName(), mBucket, mPath));
         final CompletableFuture<PutObjectResponse> future = mClient.putObject(request, body);
         future.whenComplete((r, t) -> {
+            if (t == null && r != null) {
+                logger.info("[S3Storage] Upload success");
+            } else if (t != null) {
+                logger.severe("[S3Storage] Upload failure");
+                t.printStackTrace();
+            }
             if (file.delete()) {
-                logger.info("[S3Storage] Temporary backup file successfully deleted on server");
+                logger.info("[S3Storage] Temporary backup file successfully deleted");
             } else {
                 logger.warning("[S3Storage] Unable to delete temporary backup file");
             }

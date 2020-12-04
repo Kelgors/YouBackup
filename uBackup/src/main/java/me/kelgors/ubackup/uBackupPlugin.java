@@ -3,17 +3,15 @@ package me.kelgors.ubackup;
 import me.kelgors.ubackup.commands.uBackupCommandManager;
 import me.kelgors.ubackup.compression.ICompressor;
 import me.kelgors.ubackup.compression.ZipCompressor;
+import me.kelgors.ubackup.configuration.BackupConfiguration;
+import me.kelgors.ubackup.configuration.Configuration;
 import me.kelgors.ubackup.storage.FileStorage;
 import me.kelgors.ubackup.storage.IStorage;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,6 +20,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class uBackupPlugin extends JavaPlugin {
@@ -37,8 +36,7 @@ public class uBackupPlugin extends JavaPlugin {
     private Permission mPermissionManager;
     private Map<String, Class<? extends IStorage>> mStorage;
     private Map<String, Class<? extends ICompressor>> mCompressor;
-    private BukkitScheduler mScheduler;
-    private List<WorldConfiguration> mWorldsConfiguration;
+    private Configuration mConfiguration;
     private static final int PLUGIN_ID = 9539;
     private Metrics mMetrics;
 
@@ -65,9 +63,9 @@ public class uBackupPlugin extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         getLogger().info("Enable uBackup...");
-        mMetrics = new Metrics(this, PLUGIN_ID);
         saveDefaultConfig();
-        mScheduler = getServer().getScheduler();
+        setLogLevelFromConfig();
+        mMetrics = new Metrics(this, PLUGIN_ID);
 
         try {
             if (!loadPermissions()) {
@@ -76,8 +74,8 @@ public class uBackupPlugin extends JavaPlugin {
             PluginCommand command = getCommand("ubackup");
             if (command != null) {
                 uBackupCommandManager commandManager = new uBackupCommandManager(this);
-                command.setExecutor((CommandExecutor) commandManager);
-                command.setTabCompleter((TabCompleter) commandManager);
+                command.setExecutor(commandManager);
+                command.setTabCompleter(commandManager);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -85,7 +83,7 @@ public class uBackupPlugin extends JavaPlugin {
             return;
         }
 
-        loadWorldsConfiguration();
+        mConfiguration = new Configuration(getConfig());
         setCompression("zip", ZipCompressor.class);
         setStorage("file", FileStorage.class);
         // setStorage("ftp", new FtpStorage(this));
@@ -96,10 +94,9 @@ public class uBackupPlugin extends JavaPlugin {
         super.onDisable();
         getLogger().info("Disable uBackup...");
         if (mMetrics != null) mMetrics = null;
-        if (mScheduler != null)  mScheduler.cancelTasks(this);
-        mScheduler = null;
+        getServer().getScheduler().cancelTasks(this);
         mPermissionManager = null;
-        mWorldsConfiguration = null;
+        mConfiguration = null;
         PluginCommand command = getCommand("ubackup");
         if (command != null) {
             command.setExecutor(null);
@@ -129,71 +126,26 @@ public class uBackupPlugin extends JavaPlugin {
         mCompressor.remove(type);
     }
 
-    void loadWorldsConfiguration() {
-        ArrayList<WorldConfiguration> wConfigList = new ArrayList<>();
-        ConfigurationSection cfgWorlds = getConfig().getConfigurationSection("worlds");
-        if (cfgWorlds == null) {
-            getLogger().info("Unable to find worlds key in config.yml");
-            return;
-        }
-        Set<String> worlds = cfgWorlds.getKeys(false);
-        for (String worldName : worlds) {
-            // assign values
-            WorldConfiguration wConfig = new WorldConfiguration();
-            ConfigurationSection cfgWorld = cfgWorlds.getConfigurationSection(worldName);
-            if (cfgWorld == null) continue;
-            wConfig.name = worldName;
-            wConfig.filename = cfgWorld.getString("filename", "{uuid}.zip");
-            wConfig.compression = cfgWorld.getString("compression", "zip");
-            wConfig.enabled = cfgWorld.getBoolean("enabled", true);
-            // setup destination
-            ConfigurationSection destination = cfgWorld.getConfigurationSection("destination");
-            if (destination == null) {
-                getLogger().warning(String.format("Missing destination in World(%s)", worldName));
-                wConfig.enabled = false;
-            } else {
-                wConfig.destination = destination.getValues(true);
-            }
-            // check existing
-            World bWorld = null;
-            bWorld = getServer().getWorld(worldName);
-            if (bWorld == null) {
-                getLogger().warning(String.format("Unable to find world \"%s\"", worldName));
-                wConfig.enabled = false;
-            }
-            // add to list
-            getLogger().info(wConfig.toString());
-            wConfigList.add(wConfig);
-        }
-        mWorldsConfiguration = wConfigList;
+    public Configuration getConfiguration() {
+        return mConfiguration;
     }
 
-    public List<WorldConfiguration> getWorldConfigurations() {
-        return mWorldsConfiguration;
-    }
-    /**
-     * Find a world storage strategy by worldName
-     * @param worldName
-     * @return
-     */
-    public WorldConfiguration getWorldConfiguration(String worldName) {
-        for (WorldConfiguration wc : mWorldsConfiguration) {
-            if (wc.name.equals(worldName)) return wc;
-        }
-        return null;
-    }
-    public CompletableFuture<Boolean> save(World world) {
-        return save(world, null);
+    public BackupConfiguration getProfileConfiguration(String profile) {
+        return mConfiguration.getConfiguration(profile);
     }
 
-    public CompletableFuture<Boolean> save(World world, CommandSender sender) {
-        final WorldConfiguration config = getWorldConfiguration(world.getName());
+    public CompletableFuture<Boolean> save(String profile) {
+        return save(profile, null);
+    }
+
+    public CompletableFuture<Boolean> save(String profile, CommandSender sender) {
+        final BackupConfiguration config = mConfiguration.getConfiguration(profile);
         final Logger logger = getLogger();
         if (config == null) {
-            logger.warning(String.format("Missing configuration for world %s", world.getName()));
+            logger.warning(String.format("Missing configuration with profile %s", profile));
             return CompletableFuture.completedFuture(false);
         }
-        Class<? extends ICompressor> CompressorKlass = mCompressor.get(config.compression);
+        Class<? extends ICompressor> CompressorKlass = mCompressor.get((String) config.compression.get("type"));
         Class<? extends IStorage> StorageKlass = mStorage.get((String) config.destination.get("type"));
 
         ICompressor compressor = null;
@@ -218,10 +170,15 @@ public class uBackupPlugin extends JavaPlugin {
         return BackupBuilder.create(this)
                 .setCompressor(compressor)
                 .setStorage(storage)
-                .setWorld(world, config)
+                .setProfile(config)
                 .setCommandSender(sender)
                 .backup();
     }
 
+    private void setLogLevelFromConfig() {
+        final String logLevel = getConfig().getString("log_level", "INFO");
+        assert logLevel != null;
+        getLogger().setLevel(Level.parse(logLevel.toUpperCase()));
+    }
 
 }

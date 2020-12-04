@@ -1,6 +1,7 @@
 package me.kelgors.ubackup.storage;
 
 import me.kelgors.ubackup.WorldConfiguration;
+import me.kelgors.ubackup.configuration.BackupConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -25,8 +26,8 @@ public class FileStorage implements IStorage {
     }
 
     @Override
-    public void prepare(WorldConfiguration config) {
-        String path = (String) config.destination.get("path");
+    public void prepare(BackupConfiguration config) {
+        String path = config.destination.getString("path", ".");
         mDestinationFile = new File(path);
     }
 

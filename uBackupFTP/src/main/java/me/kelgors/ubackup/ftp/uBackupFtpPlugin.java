@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class uBackupFtpPlugin extends JavaPlugin {
 
+    public static String SERVER_TAG = "[uBackup-FTP] ";
     private static final int PLUGIN_ID = 9541;
     private Metrics mMetrics;
     private uBackupPlugin muBackupPlugin;

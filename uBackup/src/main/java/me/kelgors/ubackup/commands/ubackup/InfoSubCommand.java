@@ -1,6 +1,6 @@
 package me.kelgors.ubackup.commands.ubackup;
 
-import me.kelgors.ubackup.WorldConfiguration;
+import me.kelgors.ubackup.configuration.BackupConfiguration;
 import me.kelgors.ubackup.uBackupPlugin;
 import me.kelgors.utils.chat.ChatUtils;
 import org.bukkit.ChatColor;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class InfoSubCommand extends AbsWorldRelatedSubCommand {
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("me.kelgors.me.kelgors.me.kelgors.ubackup.info") || player.hasPermission("me.kelgors.me.kelgors.me.kelgors.ubackup.*");
+        return player.hasPermission("ubackup.info") || player.hasPermission("ubackup.*");
     }
 
     @Override
@@ -25,14 +25,14 @@ public class InfoSubCommand extends AbsWorldRelatedSubCommand {
             sender.sendMessage(uBackupPlugin.TAG + "Please specify a world name");
             return true;
         }
-        final String worldName = args[0];
-        final WorldConfiguration config = ((uBackupPlugin) mPlugin).getWorldConfiguration(worldName);
+        final String profileName = args[0];
+        final BackupConfiguration config = ((uBackupPlugin) mPlugin).getProfileConfiguration(profileName);
         if (config == null) {
-            sender.sendMessage(uBackupPlugin.TAG + "Unknown world " + ChatUtils.colorized(ChatColor.BLUE, worldName) + " in uBackup config.yml");
+            sender.sendMessage(uBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, profileName) + " in uBackup config.yml");
             return true;
         }
         sender.sendMessage(new String[] {
-                uBackupPlugin.TAG + "World(" + worldName + ")",
+                uBackupPlugin.TAG + "World(" + profileName + ")",
                 "- enabled: " + ChatUtils.colorized((config.enabled ? ChatColor.GREEN : ChatColor.RED) , String.valueOf(config.enabled)),
                 "- type: " + ChatUtils.colorized(ChatColor.GREEN, (String) config.destination.get("type"))
         });

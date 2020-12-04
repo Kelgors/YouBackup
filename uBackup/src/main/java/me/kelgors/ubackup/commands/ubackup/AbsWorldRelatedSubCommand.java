@@ -1,6 +1,7 @@
 package me.kelgors.ubackup.commands.ubackup;
 
-import me.kelgors.ubackup.WorldConfiguration;
+import me.kelgors.ubackup.configuration.BackupConfiguration;
+import me.kelgors.ubackup.configuration.Configuration;
 import me.kelgors.ubackup.uBackupPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,10 +15,10 @@ public abstract class AbsWorldRelatedSubCommand extends AbsuBackupSubCommand {
     public List<String> onTabComplete(CommandSender commandSender, Command command, String label, String[] args) {
         if (args.length > 1) return new ArrayList<>();
         uBackupPlugin uBackupPlugin = (uBackupPlugin) mPlugin;
-        final List<WorldConfiguration> configurations = uBackupPlugin.getWorldConfigurations();
+        final Configuration configurations = uBackupPlugin.getConfiguration();
         final List<String> output = new ArrayList<>();
         final String arg0 = args.length > 0 ? args[0] : "";
-        for (WorldConfiguration config : configurations) {
+        for (BackupConfiguration config : configurations.getConfigurations()) {
             boolean isCorresponding = "".equals(arg0) || (config.name != null && config.name.startsWith(arg0));
             if (isCorresponding) {
                 output.add(config.name);

@@ -11,13 +11,13 @@ import java.util.List;
 public class HelpSubCommand extends AbsuBackupSubCommand {
 
     private final String HELP_MESSAGE = "\n  - help: display this message"
-            + "\n  - now <world>: Save a world now"
-            + "\n  - enable|disable <world>: Enable or disable a world backup"
-            + "\n  - info [world]: Display backup information";
+            + "\n  - now <profile>: Perform the backup profile now"
+            + "\n  - enable|disable <profile>: Enable or disable a backup profile"
+            + "\n  - info [profile]: Display backup information";
 
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("me.kelgors.me.kelgors.me.kelgors.ubackup.help") || player.hasPermission("me.kelgors.me.kelgors.me.kelgors.ubackup.*");
+        return player.hasPermission("ubackup.help") || player.hasPermission("ubackup.*");
     }
 
     @Override

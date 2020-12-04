@@ -1,8 +1,8 @@
 package me.kelgors.ubackup;
 
 import me.kelgors.ubackup.compression.ICompressor;
+import me.kelgors.ubackup.configuration.BackupConfiguration;
 import me.kelgors.ubackup.storage.IStorage;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -16,8 +16,7 @@ public class BackupBuilder {
     CommandSender mCommandSender;
     ICompressor mCompressor;
     IStorage mStorage;
-    World mWorld;
-    WorldConfiguration mWorldConfig;
+    BackupConfiguration mConfig;
 
     public static BackupBuilder create(Plugin plugin) {
         return new BackupBuilder(plugin);
@@ -42,9 +41,8 @@ public class BackupBuilder {
         return this;
     }
 
-    public BackupBuilder setWorld(World world, WorldConfiguration config) {
-        mWorld = world;
-        mWorldConfig = config;
+    public BackupBuilder setProfile(BackupConfiguration config) {
+        mConfig = config;
         return this;
     }
 
@@ -55,26 +53,25 @@ public class BackupBuilder {
     }
 
     public CompletableFuture<Boolean> backup() {
-        final CompletableFuture<World> future = CompletableFuture.completedFuture(mWorld);
-        CompletableFuture<Boolean> output = CompletableFuture.completedFuture(false);
+        CompletableFuture<Boolean> output = new CompletableFuture<>();
         try {
-            output = future.thenCompose(this::compress).thenCompose(this::store);
+            mCompressor.prepare(mConfig);
+            mStorage.prepare(mConfig);
+            output = compress().thenCompose(this::store);
         } catch (Throwable ex) {
             ex.printStackTrace();
-            future.completeExceptionally(ex);
+            output.completeExceptionally(ex);
         }
         return output;
     }
 
-    private CompletableFuture<File> compress(World world) {
-        notifySender(String.format("Compressing world %s...", world.getName()));
-        mCompressor.prepare(mWorldConfig);
-        return mCompressor.compress(world);
+    private CompletableFuture<File> compress() {
+        notifySender("Compressing...");
+        return mCompressor.compress();
     }
 
     private CompletableFuture<Boolean> store(File file) {
-        notifySender(String.format("Saving world %s...", mWorld.getName()));
-        mStorage.prepare(mWorldConfig);
+        notifySender("Uploading...");
         return mStorage.backup(file);
     }
 }
