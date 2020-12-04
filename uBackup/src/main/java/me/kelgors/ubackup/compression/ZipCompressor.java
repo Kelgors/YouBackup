@@ -70,7 +70,11 @@ public class ZipCompressor implements ICompressor {
 
     private CompletableFuture<List<File>> saveWorlds() {
         final CompletableFuture<List<File>> output = new CompletableFuture<>();
-        saveWorldAtAsync(0, output, new ArrayList<>());
+        if (mWorlds.size() > 0) {
+            saveWorldAtAsync(0, output, new ArrayList<>());
+        } else {
+            output.complete(new ArrayList<>());
+        }
         return output;
     }
 
