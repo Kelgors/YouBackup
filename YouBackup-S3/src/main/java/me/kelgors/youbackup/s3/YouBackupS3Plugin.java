@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class YouBackupS3Plugin extends JavaPlugin {
 
-    private static final int PLUGIN_ID = 9540;
+    private static final int PLUGIN_ID = 9568;
     private YouBackup mYouBackup;
     private Metrics mMetrics;
 

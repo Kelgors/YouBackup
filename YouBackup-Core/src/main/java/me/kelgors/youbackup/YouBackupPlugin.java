@@ -29,7 +29,7 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
 
     public static String TAG = String.format("[%sYouBackup%s] ", ChatColor.BLUE, ChatColor.RESET);
     public static String SERVER_TAG = "[Server] ";
-    private static final int PLUGIN_ID = 9539;
+    private static final int PLUGIN_ID = 9567;
 
     // used by commands
     private YouBackupCommandManager mCommandManager;

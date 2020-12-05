@@ -38,8 +38,8 @@ public class InfoSubCommand extends AbsProfileRelatedSubCommand {
                 YouBackupPlugin.TAG + "Profile(" + mProfileName + ")",
                 "- enabled: " + ChatUtils.colorized((config.isEnabled() ? ChatColor.GREEN : ChatColor.RED), String.valueOf(config.isEnabled())),
                 "- next: " + ChatUtils.colorized(ChatColor.GREEN, config.getNextExecutionTime().format(DateTimeFormatter.ISO_DATE_TIME)),
-                "- compression: " + ChatUtils.colorized(ChatColor.GREEN, config.getCompression().getString("zip", "<unknown>")),
-                "- type: " + ChatUtils.colorized(ChatColor.GREEN, (String) config.getDestination().get("type"))
+                "- compression: " + ChatUtils.colorized(ChatColor.GREEN, config.getCompression().getString("type", "<unknown>")),
+                "- destination: " + ChatUtils.colorized(ChatColor.GREEN, (String) config.getDestination().get("type"))
         });
         return true;
     }

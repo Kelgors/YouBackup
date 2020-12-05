@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class YouBackupFtpPlugin extends JavaPlugin {
 
     public static String SERVER_TAG = "[YouBackup-FTP] ";
-    private static final int PLUGIN_ID = 9541;
+    private static final int PLUGIN_ID = 9569;
     private Metrics mMetrics;
     private YouBackup mYouBackup;
 

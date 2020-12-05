@@ -18,7 +18,7 @@ public class HelpSubCommand extends AbsuBackupSubCommand {
 
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("youbackup.help") || player.hasPermission("youbackup.*");
+        return ((YouBackupPlugin) mPlugin).getPermissions().has(player, "youbackup.help");// player.hasPermission("youbackup.help") || player.hasPermission("youbackup.*");
     }
 
     @Override
