@@ -6,12 +6,14 @@ import com.cronutils.model.definition.CronDefinition;
 import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
+import me.kelgors.ubackup.api.configuration.IBackupConfiguration;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.lang.reflect.Proxy;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-public class BackupConfiguration {
+public class BackupConfiguration implements IBackupConfiguration {
 
     private final String filename;
     private final String name;
@@ -22,25 +24,32 @@ public class BackupConfiguration {
     private Cron cron;
     private ZonedDateTime nextExecutionTime;
 
-    public static BackupConfiguration parse(String name, ConfigurationSection section) {
-        // section.isString("destination")
-        return new BackupConfiguration(name, section.getString("filename", "{uuid}.zip"),
-                section.getBoolean("enabled", false),
-                section.getInt("rotation", 0),
-                section.getString("cron", null),
-                section.getConfigurationSection("compression"),
-                section.getConfigurationSection("destination")
-        );
-    }
-
-    public BackupConfiguration(String name, String filename, boolean enabled, int rotation, String cronExpression, ConfigurationSection compression, ConfigurationSection destination) {
+    public BackupConfiguration(String name, ConfigurationSection profile) {
         this.name = name;
-        this.filename = filename;
-        this.enabled = enabled;
-        this.rotation = rotation;
-        this.compression = compression;
-        this.destination = destination;
-        parseCron(cronExpression);
+        this.filename = profile.getString("filename", "{uuid}.zip");
+        this.enabled = profile.getBoolean("enabled", false);
+        this.rotation = profile.getInt("rotation", 0);
+        final ConfigurationSection compression = profile.getConfigurationSection("compression");
+        if (compression != null) {
+            this.compression = (ConfigurationSection) Proxy.newProxyInstance(
+                ConfigurationSection.class.getClassLoader(),
+                new Class[]{ConfigurationSection.class},
+                new ConfigurationSectionHandler(compression)
+            );
+        } else {
+            this.compression = null;
+        }
+        final ConfigurationSection destination = profile.getConfigurationSection("destination");
+        if (destination != null) {
+            this.destination = (ConfigurationSection) Proxy.newProxyInstance(
+                ConfigurationSection.class.getClassLoader(),
+                new Class[]{ConfigurationSection.class},
+                new ConfigurationSectionHandler(destination)
+            );
+        } else {
+            this.destination = null;
+        }
+        parseCron(profile.getString("cron"));
     }
 
     void parseCron(String expression) {

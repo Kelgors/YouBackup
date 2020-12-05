@@ -33,14 +33,19 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.cronutils</groupId>
+            <artifactId>cron-utils</artifactId>
+            <version>9.0.2</version>
+        </dependency>
+        <dependency>
             <groupId>me.kelgors</groupId>
             <artifactId>utils</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.cronutils</groupId>
-            <artifactId>cron-utils</artifactId>
-            <version>9.0.2</version>
+            <groupId>me.kelgors</groupId>
+            <artifactId>ubackup-api</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 

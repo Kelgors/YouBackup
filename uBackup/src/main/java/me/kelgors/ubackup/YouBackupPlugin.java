@@ -1,19 +1,20 @@
 package me.kelgors.ubackup;
 
-import me.kelgors.ubackup.commands.uBackupCommandManager;
-import me.kelgors.ubackup.compression.ICompressor;
+import me.kelgors.ubackup.api.YouBackup;
+import me.kelgors.ubackup.api.compression.ICompressor;
+import me.kelgors.ubackup.api.storage.IStorage;
+import me.kelgors.ubackup.commands.YouBackupCommandManager;
+import me.kelgors.ubackup.commands.ubackup.ProfileSubCommand;
 import me.kelgors.ubackup.compression.ZipCompressor;
 import me.kelgors.ubackup.configuration.BackupConfiguration;
 import me.kelgors.ubackup.configuration.Configuration;
 import me.kelgors.ubackup.storage.FileStorage;
-import me.kelgors.ubackup.storage.IStorage;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,13 +25,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class uBackupPlugin extends JavaPlugin {
+public class YouBackupPlugin extends JavaPlugin implements YouBackup {
 
-    public static String TAG = String.format("[%suBackup%s] ", ChatColor.BLUE, ChatColor.RESET);
+    public static String TAG = String.format("[%sYouBackup%s] ", ChatColor.BLUE, ChatColor.RESET);
     public static String SERVER_TAG = "[Server] ";
     private static final int PLUGIN_ID = 9539;
 
     // used by commands
+    private YouBackupCommandManager mCommandManager;
     private Permission mPermissionManager;
     // used by save() and Compression/Storage API
     private Map<String, Class<? extends IStorage>> mStorage;
@@ -43,7 +45,6 @@ public class uBackupPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         super.onLoad();
-        getLogger().info("Loading uBackup...");
         mCompressor = new HashMap<>();
         mStorage = new HashMap<>();
     }
@@ -51,29 +52,30 @@ public class uBackupPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        getLogger().info("Enable uBackup...");
+        // configuration
         saveDefaultConfig();
         setLogLevelFromConfig();
+        mConfiguration = new Configuration(getConfig());
+        // metrics
         mMetrics = new Metrics(this, PLUGIN_ID);
-        // load permissions for commands
-        // prepare commands
         try {
+            // load permissions for commands
             if (!loadPermissions()) {
                 getLogger().warning("Unable to load permission from Vault. Please ensure you have Vault in your plugin folder");
             }
-            PluginCommand command = getCommand("ubackup");
+            // prepare commands
+            PluginCommand command = getCommand("youbackup");
             if (command != null) {
-                uBackupCommandManager commandManager = new uBackupCommandManager(this);
-                command.setExecutor(commandManager);
-                command.setTabCompleter(commandManager);
+                mCommandManager = new YouBackupCommandManager(this);
+                command.setExecutor(mCommandManager);
+                command.setTabCompleter(mCommandManager);
+                loadCommands();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
             getPluginLoader().disablePlugin(this);
             return;
         }
-        // parse configuration
-        mConfiguration = new Configuration(getConfig());
         // setup native extensions
         setCompression("zip", ZipCompressor.class);
         setStorage("file", FileStorage.class);
@@ -84,20 +86,43 @@ public class uBackupPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         super.onDisable();
-        getLogger().info("Disable uBackup...");
         getServer().getScheduler().cancelTasks(this);
-        final PluginCommand command = getCommand("ubackup");
+        final PluginCommand command = getCommand("youbackup");
         if (command != null) {
             command.setExecutor(null);
             command.setTabCompleter(null);
         }
         mMetrics = null;
+        mCommandManager = null;
         mPermissionManager = null;
         mConfiguration = null;
         mCompressor.clear();
         mStorage.clear();
     }
     //endregion
+
+    //region Commands
+    public void loadCommands() {
+        for (BackupConfiguration config : mConfiguration.getConfigurations()) {
+            mCommandManager.addSubCommand(config.getName(), new ProfileSubCommand(this, config.getName()));
+        }
+    }
+    public void unloadCommands() {
+        for (BackupConfiguration config : mConfiguration.getConfigurations()) {
+            mCommandManager.removeSubCommand(config.getName());
+        }
+    }
+    //endregion
+
+    public void reloadPluginConfig() {
+        getLogger().info("Reload config...");
+        getServer().getScheduler().cancelTasks(this);
+        unloadCommands();
+        this.reloadConfig();
+        mConfiguration = new Configuration(getConfig());
+        loadCommands();
+        startCron();
+    }
 
     //region Permissions
     public Permission getPermissions() {
@@ -153,8 +178,8 @@ public class uBackupPlugin extends JavaPlugin {
             logger.warning(String.format("Missing configuration with profile %s", profile));
             return CompletableFuture.completedFuture(false);
         }
-        Class<? extends ICompressor> CompressorKlass = mCompressor.get((String) config.getCompression().get("type"));
-        Class<? extends IStorage> StorageKlass = mStorage.get((String) config.getDestination().get("type"));
+        Class<? extends ICompressor> CompressorKlass = mCompressor.get(config.getCompression().getString("type"));
+        Class<? extends IStorage> StorageKlass = mStorage.get(config.getDestination().getString("type"));
 
         ICompressor compressor = null;
         IStorage storage = null;

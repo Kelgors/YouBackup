@@ -1,7 +1,8 @@
-package me.kelgors.ubackup.commands.ubackup;
+package me.kelgors.ubackup.commands.ubackup.profile;
 
+import me.kelgors.ubackup.YouBackupPlugin;
+import me.kelgors.ubackup.commands.ubackup.AbsWorldRelatedSubCommand;
 import me.kelgors.ubackup.configuration.BackupConfiguration;
-import me.kelgors.ubackup.uBackupPlugin;
 import me.kelgors.utils.chat.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,9 +12,15 @@ import org.bukkit.entity.Player;
 import java.time.format.DateTimeFormatter;
 
 public class InfoSubCommand extends AbsWorldRelatedSubCommand {
+    private final String mProfileName;
+
+    public InfoSubCommand(String profileName) {
+        mProfileName = profileName;
+    }
+
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("ubackup.info") || player.hasPermission("ubackup.*");
+        return player.hasPermission("youbackup.info") || player.hasPermission("youbackup.*");
     }
 
     @Override
@@ -23,18 +30,13 @@ public class InfoSubCommand extends AbsWorldRelatedSubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(uBackupPlugin.TAG + "Please specify a profile name");
-            return true;
-        }
-        final String profileName = args[0];
-        final BackupConfiguration config = ((uBackupPlugin) mPlugin).getProfileConfiguration(profileName);
+        final BackupConfiguration config = ((YouBackupPlugin) mPlugin).getProfileConfiguration(mProfileName);
         if (config == null) {
-            sender.sendMessage(uBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, profileName) + " in uBackup config.yml");
+            sender.sendMessage(YouBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, mProfileName) + " in YouBackup config.yml");
             return true;
         }
         sender.sendMessage(new String[] {
-                uBackupPlugin.TAG + "Profile(" + profileName + ")",
+                YouBackupPlugin.TAG + "Profile(" + mProfileName + ")",
                 "- enabled: " + ChatUtils.colorized((config.isEnabled() ? ChatColor.GREEN : ChatColor.RED), String.valueOf(config.isEnabled())),
                 "- next: " + ChatUtils.colorized(ChatColor.GREEN, config.getNextExecutionTime().format(DateTimeFormatter.ISO_DATE_TIME)),
                 "- type: " + ChatUtils.colorized(ChatColor.GREEN, (String) config.getDestination().get("type"))

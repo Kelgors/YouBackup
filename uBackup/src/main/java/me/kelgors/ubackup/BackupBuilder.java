@@ -1,9 +1,9 @@
 package me.kelgors.ubackup;
 
-import me.kelgors.ubackup.compression.ICompressor;
-import me.kelgors.ubackup.configuration.BackupConfiguration;
-import me.kelgors.ubackup.storage.IStorage;
-import me.kelgors.ubackup.storage.RemoteFile;
+import me.kelgors.ubackup.api.compression.ICompressor;
+import me.kelgors.ubackup.api.configuration.IBackupConfiguration;
+import me.kelgors.ubackup.api.storage.IRemoteFile;
+import me.kelgors.ubackup.api.storage.IStorage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -19,7 +19,7 @@ public class BackupBuilder {
     CommandSender mCommandSender;
     ICompressor mCompressor;
     IStorage mStorage;
-    BackupConfiguration mConfig;
+    IBackupConfiguration mConfig;
 
     public static BackupBuilder create(Plugin plugin) {
         return new BackupBuilder(plugin);
@@ -44,15 +44,15 @@ public class BackupBuilder {
         return this;
     }
 
-    public BackupBuilder setProfile(BackupConfiguration config) {
+    public BackupBuilder setProfile(IBackupConfiguration config) {
         mConfig = config;
         return this;
     }
 
     private void notifySender(String message) {
-        mPlugin.getLogger().info(uBackupPlugin.TAG + message);
+        mPlugin.getLogger().info(YouBackupPlugin.TAG + message);
         if (mCommandSender == null || !(mCommandSender instanceof Player)) return;
-        mCommandSender.sendMessage(uBackupPlugin.TAG + message);
+        mCommandSender.sendMessage(YouBackupPlugin.TAG + message);
     }
 
     public CompletableFuture<Boolean> backup() {
@@ -84,7 +84,7 @@ public class BackupBuilder {
         notifySender("Uploading...");
         return mStorage.create(file);
     }
-    private CompletableFuture<Boolean> delete(RemoteFile file) {
+    private CompletableFuture<Boolean> delete(IRemoteFile file) {
         if (file == null) return CompletableFuture.completedFuture(true);
         notifySender(String.format("Deleting %s...", file.getName()));
         return mStorage.delete(file);
@@ -98,17 +98,17 @@ public class BackupBuilder {
                 .thenCompose(this::delete);
     }
 
-    private RemoteFile getOlderFile(List<RemoteFile> remoteFiles) {
+    private IRemoteFile getOlderFile(List<IRemoteFile> remoteFiles) {
         if (remoteFiles.size() <= mConfig.getRotation()) {
             return null;
         }
-        final Optional<RemoteFile> last = remoteFiles.stream().max((a, b) -> {
+        final Optional<IRemoteFile> first = remoteFiles.stream().min((a, b) -> {
             boolean isOlder = a.getCreatedAt().isBefore(b.getCreatedAt());
-            boolean isYounger = a.getCreatedAt().isBefore(b.getCreatedAt());
-            if (isOlder) return 1;
-            if (isYounger) return -1;
+            boolean isYounger = a.getCreatedAt().isAfter(b.getCreatedAt());
+            if (isOlder) return -1;
+            if (isYounger) return 1;
             return 0;
         });
-        return last.orElse(null);
+        return first.orElse(null);
     }
 }

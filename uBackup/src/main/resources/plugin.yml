@@ -1,17 +1,18 @@
-name: uBackup
+name: YouBackup
 version: 1.0.0
 author: Kelgors
-main: me.kelgors.ubackup.uBackupPlugin
+main: me.kelgors.ubackup.YouBackupPlugin
 api-version: 1.16
 softdepend: [ Vault ]
 commands:
-  ubackup:
-    description: ubackup base command
-    usage: /ubackup <subcommand>
+  youbackup:
+    description: youbackup base command
+    usage: /youbackup <subcommand>
+    aliases: yb
 permissions:
-  ubackup.*:
+  youbackup.*:
     description: Access to all uBackup commands
-  ubackup.help:
+  youbackup.help:
     description: Can show uBackup help
-  ubackup.now:
+  youbackup.now:
     description: Can perform a backup now

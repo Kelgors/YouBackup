@@ -1,6 +1,6 @@
 package me.kelgors.ubackup.commands.ubackup;
 
-import me.kelgors.ubackup.uBackupPlugin;
+import me.kelgors.ubackup.YouBackupPlugin;
 import me.kelgors.utils.commands.AbsSubCommand;
 import me.kelgors.utils.commands.CommandUtils;
 import org.bukkit.entity.Player;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 public abstract class AbsuBackupSubCommand extends AbsSubCommand {
     @Override
     protected boolean hasPermission(Player player, String permission) {
-        return ((uBackupPlugin)mPlugin).getPermissions().has(player, permission);
+        return ((YouBackupPlugin)mPlugin).getPermissions().has(player, permission);
     }
 
     protected Integer parseInt(String[] args, int index) {

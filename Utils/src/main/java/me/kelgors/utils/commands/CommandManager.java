@@ -59,15 +59,19 @@ public abstract class CommandManager<T extends Plugin> implements CommandExecuto
      * @param label    The subcommand label
      * @param command  The SubCommand executor
      */
-    protected void addSubCommand(String label, AbsSubCommand command) {
+    public void addSubCommand(String label, AbsSubCommand command) {
         if (command != null) {
             command.setPlugin(mBasePlugin);
             command.setCommandManager(this);
-            if (commands.get(label) != null) {
+            if (commands.containsKey(label)) {
                 mBasePlugin.getLogger().warning("Command " + label + " overriden");
             }
             this.commands.put(label, command);
         }
+    }
+
+    public void removeSubCommand(String label) {
+        commands.remove(label);
     }
 
     /**

@@ -18,6 +18,7 @@
         <module>uBackup</module>
         <module>uBackupS3</module>
         <module>uBackupFTP</module>
+        <module>uBackup-api</module>
     </modules>
     <repositories>
         <!-- Spigot -->

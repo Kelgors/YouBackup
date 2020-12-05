@@ -1,7 +1,8 @@
 package me.kelgors.ubackup.compression;
 
 import me.kelgors.ubackup.FilenameFormatter;
-import me.kelgors.ubackup.configuration.BackupConfiguration;
+import me.kelgors.ubackup.api.compression.ICompressor;
+import me.kelgors.ubackup.api.configuration.IBackupConfiguration;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
@@ -31,7 +32,7 @@ public class ZipCompressor implements ICompressor {
     }
 
     @Override
-    public void prepare(final BackupConfiguration config) {
+    public void prepare(IBackupConfiguration config) {
         mProfileName = config.getName();
         mFilename = config.getFilename();
         final ConfigurationSection compression = config.getCompression();

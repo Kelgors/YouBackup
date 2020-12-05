@@ -1,7 +1,8 @@
-package me.kelgors.ubackup.commands.ubackup;
+package me.kelgors.ubackup.commands.ubackup.profile;
 
+import me.kelgors.ubackup.YouBackupPlugin;
+import me.kelgors.ubackup.commands.ubackup.AbsWorldRelatedSubCommand;
 import me.kelgors.ubackup.configuration.BackupConfiguration;
-import me.kelgors.ubackup.uBackupPlugin;
 import me.kelgors.utils.chat.ChatUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,9 +10,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class DisableSubCommand extends AbsWorldRelatedSubCommand {
+    private final String mProfileName;
+
+    public DisableSubCommand(String profileName) {
+        mProfileName = profileName;
+    }
+
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("ubackup.disable") || player.hasPermission("ubackup.*");
+        return player.hasPermission("youbackup.disable") || player.hasPermission("youbackup.*");
     }
 
     @Override
@@ -21,20 +28,15 @@ public class DisableSubCommand extends AbsWorldRelatedSubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(uBackupPlugin.TAG + "Please specify a world name. /me.kelgors.me.kelgors.me.kelgors.ubackup disable <world_name>");
-            return true;
-        }
-        final String profileName = args[0];
-        final BackupConfiguration config = ((uBackupPlugin) mPlugin).getProfileConfiguration(profileName);
+        final BackupConfiguration config = ((YouBackupPlugin) mPlugin).getProfileConfiguration(mProfileName);
         if (config == null) {
-            sender.sendMessage(uBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, profileName) + " in uBackup config.yml");
+            sender.sendMessage(YouBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, mProfileName) + " in YouBackup config.yml");
             return true;
         }
-        mPlugin.getConfig().set(String.format("backups.%s.enabled", profileName), false);
+        mPlugin.getConfig().set(String.format("backups.%s.enabled", mProfileName), false);
         mPlugin.saveConfig();
         config.setEnabled(false);
-        sender.sendMessage(String.format("The world %s has been disabled", ChatUtils.colorized(ChatColor.BLUE, profileName)));
+        sender.sendMessage(String.format("The world %s has been disabled", ChatUtils.colorized(ChatColor.BLUE, mProfileName)));
         return true;
     }
 

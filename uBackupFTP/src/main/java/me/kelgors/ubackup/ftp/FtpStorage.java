@@ -1,8 +1,9 @@
 package me.kelgors.ubackup.ftp;
 
-import me.kelgors.ubackup.configuration.BackupConfiguration;
-import me.kelgors.ubackup.storage.IStorage;
-import me.kelgors.ubackup.storage.RemoteFile;
+import me.kelgors.ubackup.api.configuration.IBackupConfiguration;
+import me.kelgors.ubackup.api.storage.BasicRemoteFile;
+import me.kelgors.ubackup.api.storage.IRemoteFile;
+import me.kelgors.ubackup.api.storage.IStorage;
 import org.apache.commons.net.ftp.*;
 import org.apache.commons.net.util.TrustManagerUtils;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,26 +44,14 @@ public class FtpStorage implements IStorage {
     }
 
     @Override
-    public void prepare(BackupConfiguration config) {
+    public void prepare(IBackupConfiguration config) {
         final ConfigurationSection destination = config.getDestination();
-        if (destination.contains("secure")) {
-            isSecure = config.getDestination().getBoolean("secure", false);
-        }
-        if (destination.contains("host")) {
-            host = destination.getString("host", null);
-        }
-        if (destination.contains("port")) {
-            port = destination.getInt("port", 21);
-        }
-        if (destination.contains("username")) {
-            username = destination.getString("username", null);
-        }
-        if (destination.contains("password")) {
-            password = destination.getString("password", null);
-        }
-        if (destination.contains("path")) {
-            path = destination.getString("path", "");
-        }
+        isSecure = destination.getBoolean("secure", false);
+        host = destination.getString("host", null);
+        port = destination.getInt("port", 21);
+        username = destination.getString("username", null);
+        password = destination.getString("password", null);
+        path = destination.getString("path", "");
         if (isSecure) {
             FTPSClient sftp = new FTPSClient();
             sftp.setTrustManager(TrustManagerUtils.getAcceptAllTrustManager());
@@ -73,8 +62,8 @@ public class FtpStorage implements IStorage {
     }
 
     @Override
-    public CompletableFuture<List<RemoteFile>> list() {
-        final CompletableFuture<List<RemoteFile>> output = new CompletableFuture<>();
+    public CompletableFuture<List<IRemoteFile>> list() {
+        final CompletableFuture<List<IRemoteFile>> output = new CompletableFuture<>();
         runTaskAsync(() -> {
             try {
                 if (!mClient.isConnected() && !connect()) {
@@ -86,8 +75,8 @@ public class FtpStorage implements IStorage {
                 // list files on ftp server in given path
                 final FTPFile[] ftpFiles = mClient.listFiles();
                 // transform FTPFile to RemoteFile
-                final List<RemoteFile> files = Arrays.stream(ftpFiles)
-                        .map((file) -> new RemoteFile(file.getName(), file.getTimestamp().toInstant().atZone(ZoneId.systemDefault())))
+                final List<IRemoteFile> files = Arrays.stream(ftpFiles)
+                        .map((file) -> new BasicRemoteFile(file.getName(), file.getTimestamp().toInstant().atZone(ZoneId.systemDefault())))
                         .collect(Collectors.toList());
                 output.complete(files);
             } catch (IOException e) {
@@ -141,7 +130,7 @@ public class FtpStorage implements IStorage {
     }
 
     @Override
-    public CompletableFuture<Boolean> delete(RemoteFile remoteFile) {
+    public CompletableFuture<Boolean> delete(IRemoteFile remoteFile) {
         final CompletableFuture<Boolean> output = new CompletableFuture<>();
         runTaskAsync(() -> {
             try {
@@ -219,7 +208,7 @@ public class FtpStorage implements IStorage {
     }
 
     private void log(Level level, String message) {
-        mPlugin.getLogger().log(level, uBackupFtpPlugin.SERVER_TAG + message);
+        mPlugin.getLogger().log(level, YouBackupFtpPlugin.SERVER_TAG + message);
     }
 
     private void runTaskAsync(final Runnable runnable) {

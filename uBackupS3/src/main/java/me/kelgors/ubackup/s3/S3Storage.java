@@ -1,8 +1,9 @@
 package me.kelgors.ubackup.s3;
 
-import me.kelgors.ubackup.configuration.BackupConfiguration;
-import me.kelgors.ubackup.storage.IStorage;
-import me.kelgors.ubackup.storage.RemoteFile;
+import me.kelgors.ubackup.api.configuration.IBackupConfiguration;
+import me.kelgors.ubackup.api.storage.BasicRemoteFile;
+import me.kelgors.ubackup.api.storage.IRemoteFile;
+import me.kelgors.ubackup.api.storage.IStorage;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -48,7 +49,7 @@ public class S3Storage implements IStorage {
     }
 
     @Override
-    public void prepare(BackupConfiguration config) {
+    public void prepare(IBackupConfiguration config) {
         // get config from yaml
         final ConfigurationSection destination = config.getDestination();
         mClientId = destination.getString("client_id", null);
@@ -74,7 +75,7 @@ public class S3Storage implements IStorage {
     }
 
     @Override
-    public CompletableFuture<List<RemoteFile>> list() {
+    public CompletableFuture<List<IRemoteFile>> list() {
         final ListObjectsRequest request = ListObjectsRequest.builder()
                 .bucket(mBucket)
                 .prefix(mPath)
@@ -83,7 +84,7 @@ public class S3Storage implements IStorage {
                 .thenCompose((res) -> {
                     return CompletableFuture.completedFuture(
                         res.contents().stream()
-                            .map((object) -> new RemoteFile(object.key(), object.lastModified().atZone(ZoneId.systemDefault())))
+                            .map((object) -> new BasicRemoteFile(object.key(), object.lastModified().atZone(ZoneId.systemDefault())))
                             .collect(Collectors.toList())
                     );
                 });
@@ -120,7 +121,7 @@ public class S3Storage implements IStorage {
     }
 
     @Override
-    public CompletableFuture<Boolean> delete(RemoteFile remoteFile) {
+    public CompletableFuture<Boolean> delete(IRemoteFile remoteFile) {
         final DeleteObjectRequest request = DeleteObjectRequest.builder()
                 .key(remoteFile.getName())
                 .bucket(mBucket)

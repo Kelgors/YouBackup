@@ -1,6 +1,6 @@
 package me.kelgors.ubackup.commands.ubackup;
 
-import me.kelgors.ubackup.uBackupPlugin;
+import me.kelgors.ubackup.YouBackupPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,13 +11,14 @@ import java.util.List;
 public class HelpSubCommand extends AbsuBackupSubCommand {
 
     private final String HELP_MESSAGE = "\n  - help: display this message"
-            + "\n  - now <profile>: Perform the backup profile now"
-            + "\n  - enable|disable <profile>: Enable or disable a backup profile"
-            + "\n  - info [profile]: Display backup information";
+            + "\n  - reload: reload YouBackup configuration"
+            + "\n  - <profile> now: Perform the backup profile now"
+            + "\n  - <profile> enable|disable: Enable or disable a backup profile"
+            + "\n  - <profile> info: Display backup information";
 
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("ubackup.help") || player.hasPermission("ubackup.*");
+        return player.hasPermission("youbackup.help") || player.hasPermission("youbackup.*");
     }
 
     @Override
@@ -27,8 +28,8 @@ public class HelpSubCommand extends AbsuBackupSubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
-        sender.sendMessage(uBackupPlugin.TAG + mPlugin.getDescription().getVersion() + HELP_MESSAGE);
-        return false;
+        sender.sendMessage(YouBackupPlugin.TAG + mPlugin.getDescription().getVersion() + HELP_MESSAGE);
+        return true;
     }
 
     @Override

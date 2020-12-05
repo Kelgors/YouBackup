@@ -24,7 +24,7 @@ public class Configuration {
         for (String name : backups.getKeys(false)) {
             ConfigurationSection section = backups.getConfigurationSection(name);
             if (section == null) continue;
-            backupList.add(BackupConfiguration.parse(name, section));
+            backupList.add(new BackupConfiguration(name, section));
         }
         mBackups = backupList;
     }

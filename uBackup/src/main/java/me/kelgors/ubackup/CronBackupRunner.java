@@ -9,9 +9,9 @@ import java.util.function.BiConsumer;
 
 public class CronBackupRunner implements Runnable {
 
-    private final uBackupPlugin mPlugin;
+    private final YouBackupPlugin mPlugin;
 
-    public CronBackupRunner(uBackupPlugin plugin) {
+    public CronBackupRunner(YouBackupPlugin plugin) {
         mPlugin = plugin;
     }
 
@@ -32,10 +32,10 @@ public class CronBackupRunner implements Runnable {
 
     private static class OnSaveComplete implements BiConsumer<Boolean, Throwable> {
 
-        private final uBackupPlugin plugin;
+        private final YouBackupPlugin plugin;
         private final BackupConfiguration backup;
 
-        OnSaveComplete(uBackupPlugin plugin, BackupConfiguration backup) {
+        OnSaveComplete(YouBackupPlugin plugin, BackupConfiguration backup) {
             this.plugin = plugin;
             this.backup = backup;
         }

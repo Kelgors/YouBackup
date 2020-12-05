@@ -1,6 +1,9 @@
 package me.kelgors.ubackup.storage;
 
-import me.kelgors.ubackup.configuration.BackupConfiguration;
+import me.kelgors.ubackup.api.configuration.IBackupConfiguration;
+import me.kelgors.ubackup.api.storage.BasicRemoteFile;
+import me.kelgors.ubackup.api.storage.IRemoteFile;
+import me.kelgors.ubackup.api.storage.IStorage;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -30,7 +33,7 @@ public class FileStorage implements IStorage {
     }
 
     @Override
-    public void prepare(BackupConfiguration config) {
+    public void prepare(IBackupConfiguration config) {
         String path = config.getDestination().getString("path", ".");
         mDestinationFile = new File(path);
     }
@@ -61,14 +64,14 @@ public class FileStorage implements IStorage {
     }
 
     @Override
-    public CompletableFuture<List<RemoteFile>> list() {
-        final CompletableFuture<List<RemoteFile>> output = new CompletableFuture<>();
+    public CompletableFuture<List<IRemoteFile>> list() {
+        final CompletableFuture<List<IRemoteFile>> output = new CompletableFuture<>();
         mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, () -> {
-            final ArrayList<RemoteFile> remoteFiles = new ArrayList<>();
+            final ArrayList<IRemoteFile> remoteFiles = new ArrayList<>();
             for (File file : Objects.requireNonNull(mDestinationFile.listFiles())) {
                 try {
                     BasicFileAttributes attributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-                    remoteFiles.add(new RemoteFile(file.getName(), attributes.creationTime().toInstant().atZone(ZoneId.systemDefault())));
+                    remoteFiles.add(new BasicRemoteFile(file.getName(), attributes.creationTime().toInstant().atZone(ZoneId.systemDefault())));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -79,7 +82,7 @@ public class FileStorage implements IStorage {
     }
 
     @Override
-    public CompletableFuture<Boolean> delete(RemoteFile remoteFile) {
+    public CompletableFuture<Boolean> delete(IRemoteFile remoteFile) {
         final CompletableFuture<Boolean> output = new CompletableFuture<>();
         mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, () -> {
             final File file = new File(mDestinationFile, remoteFile.getName());

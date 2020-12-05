@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ubackup-ftp" />
+        <module name="uBackup-api" />
         <module name="ubackup" />
         <module name="utils" />
         <module name="ubackup-s3" />

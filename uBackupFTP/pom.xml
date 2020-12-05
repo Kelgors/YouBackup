@@ -25,14 +25,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>me.kelgors</groupId>
-            <artifactId>ubackup</artifactId>
+            <artifactId>ubackup-api</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
@@ -42,7 +36,12 @@
             <artifactId>commons-net</artifactId>
             <version>3.7.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.7</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

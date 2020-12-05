@@ -1,114 +1,84 @@
-destinations:
-  backup_file: # the name of you destination profile
-    # save as a file on the local machine
-    type: file
-    path: /home/mcserver/backups
-  my_ftp:
-    # Save file on FTP server (need uBackup-FTP plugin)
-    type: ftp
-    # if true, use sftp protocol, otherwise simple ftp
-    secure: false
-    # ftp connection information
-    host: "192.168.0.1"
-    port: 21
-    # ftp login credentials
-    username: admin
-    password: password
-    # remote directory
-    path: backups
 backups:
-  # your backup name
-  all:
-    # is this backup running or not
+  # your profile "worlds", you can name it as you want
+  # this profile will:
+  # - compress worlds (world, world_nether, world_the_end) into a zip file called "{date}{time}.zip" (according to the time when backup is performed)
+  # - upload the the zip file to s3://your_bucket/backups/world/{date}{time}.zip
+  # every 6 hours (00:00, 06:00, 12:00, 18:00)
+  # and keep no more than 5 files on remote service
+  worlds:
+    # is this backup will run automatically or not
     enabled: true
     # crontab definition (use https://crontab.guru/ for easier configuration)
     # Define when your backup is running
-    cron: 0 */6 * * *
+    cron: 0 */6 * * * # every 6 hours
     # your file name after compression
     # variables:
-    # - timestamp: 1606987858,
+    # - timestamp: 1606987858 (every seconds from 1970-01-01 00:00:00)
     # - date: 20201231
     # - time: 235959
-    # - uuid: random uuid like 2cd7957d-dd21-4b32-9424-283e2928b856
-    # - backup: your backup name, here "all"
+    # - uuid: random UUID like 2cd7957d-dd21-4b32-9424-283e2928b856
+    # - backup: your backup name, here "worlds"
     filename: "{date}{time}.zip"
-    # how much backup you keep on your destination
+    # how much backup file you keep on your destination
     rotation: 5
     # Define what is in the compressed file
     compression:
       # define what type of compression is used (zip is native, other types need plugins)
       type: zip
-      # At least one of these properties are required (worlds, include)
+      # At least one of these properties is required (worlds, include)
       worlds:
         - world
         - world_nether
         - world_the_end
+    # Define where the backup file will be sent
+    destination:
+      # Send your file to AWS S3 with the plugin uBackup-S3
+      # Set the type to s3
+      type: s3
+      # this is your S3 bucket name
+      bucket: your_bucket
+      # this is the path inside your bucket where
+      # you want your backups ot be uploaded
+      path: backups/world
+      # your bucket region
+      region: eu-west-3
+      # Authentication information (unsecure)
+      client_id: insert_your_client_id
+      client_secret: insert_your_secret
+      # Authentication information (secure) (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
+      # if profile is set, client_id & client_secret are ignored
+      # profile: mc-backup
+  # your profile "plugins", you can name it as you want
+  # this profile will:
+  # - compress plugins/ folder but not plugins/dynmap into a zip file called "{timestamp}.zip" (according to the time when backup is performed)
+  # - upload the the zip file to ftp://admin:password@192.168.0.1:21/backups/plugins/{timestamp}.zip
+  # every day (00:00)
+  # and keep no more than 7 files on your ftp server
+  plugins:
+    filename: "{timestamp}.zip"
+    cron: 0 0 0 * * * # every day
+    rotation: 7
+    compression:
+      type: zip
       # include other files to the backup file
       include:
         # backup everything in plugins/ directory
         - plugins/
       # exclude some files to not be backed up
       exclude:
-        # but dont backup your dynmap map files
+        # dont backup your dynmap map files
         - plugins/dynmap/
-        # and dont backup plugin jar files
-        - plugins/*.jar
-    # Define where the backup file will be sent
     destination:
-      # Send your file to AWS S3 with the plugin uBackup-S3
-      type: s3
-      bucket: your_bucket
-      path: backups/home
-      region: global
-      # unsecure
-      client_id: insert_your_client_id
-      client_secret: insert_your_secret
-      # or secure (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
-      profile: mc-backup
-  plugins:
-    filename: "{timestamp}.zip"
-    cron: 0 0 * * * * # every hour
-    compression:
-      type: zip
-      exclude:
-        - plugins/dynmap/
-      include:
-        - plugins/
-    destination: plugins_ftp
-  worlds:
-    compression:
-      type: zip
-      filename: "{timestamp}.zip"
-      worlds:
-        - world
-        - world_nether
-    destination: worlds_s3
-
-worlds:
-  world:
-    filename: "{timestamp}.zip" #"{timestamp}-{date}-{time}-{uuid}-{world}.zip"
-    compression: zip # none|zip (with plugin: 7z|gz|tar)
-    rotation: 5
-    # S3 configuration (with external plugin)
-    destination:
-      type: s3
-      bucket: your_bucket
-      path: backups/home
-      region: global
-      # unsecure
-      client_id: insert_your_client_id
-      client_secret: insert_your_secret
-      # secure
-      profile: mc-backup
-    # # FTP configuration
-    # destination:
-    #   type: ftp
-    #   host: "192.168.0.1"
-    #   port: 21
-    #   username: admin
-    #   password: password
-    #   path: backups/worlds
-    # # Server directory
-    # destination:
-    #   type: file
-    #   path: backups/worlds
+      # Save file on FTP server (need uBackup-FTP plugin)
+      # Set the type to ftp
+      type: ftp
+      # if true, use SFTP protocol, otherwise simple FTP
+      secure: false
+      # ftp connection information
+      host: "192.168.0.1"
+      port: 21
+      # ftp login credentials
+      username: admin
+      password: password
+      # remote directory
+      path: backups/plugins
