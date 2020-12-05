@@ -19,9 +19,9 @@ public abstract class AbsWorldRelatedSubCommand extends AbsuBackupSubCommand {
         final List<String> output = new ArrayList<>();
         final String arg0 = args.length > 0 ? args[0] : "";
         for (BackupConfiguration config : configurations.getConfigurations()) {
-            boolean isCorresponding = "".equals(arg0) || (config.name != null && config.name.startsWith(arg0));
+            boolean isCorresponding = "".equals(arg0) || (config.getName() != null && config.getName().startsWith(arg0));
             if (isCorresponding) {
-                output.add(config.name);
+                output.add(config.getName());
             }
         }
         return output;

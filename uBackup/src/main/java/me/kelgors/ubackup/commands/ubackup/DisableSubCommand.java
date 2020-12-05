@@ -4,7 +4,6 @@ import me.kelgors.ubackup.configuration.BackupConfiguration;
 import me.kelgors.ubackup.uBackupPlugin;
 import me.kelgors.utils.chat.ChatUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,7 +33,7 @@ public class DisableSubCommand extends AbsWorldRelatedSubCommand {
         }
         mPlugin.getConfig().set(String.format("backups.%s.enabled", profileName), false);
         mPlugin.saveConfig();
-        config.enabled = false;
+        config.setEnabled(false);
         sender.sendMessage(String.format("The world %s has been disabled", ChatUtils.colorized(ChatColor.BLUE, profileName)));
         return true;
     }

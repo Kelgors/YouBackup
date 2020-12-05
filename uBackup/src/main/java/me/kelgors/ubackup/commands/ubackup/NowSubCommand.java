@@ -32,7 +32,8 @@ public class NowSubCommand extends AbsWorldRelatedSubCommand {
             sender.sendMessage(uBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, profileName) + " in uBackup config.yml");
             return true;
         }
-        uBackupPlugin.getInstance().save(profileName, sender)
+
+        ((uBackupPlugin) mPlugin).save(profileName, sender)
             .whenComplete((result, throwable) -> {
                 sender.sendMessage(String.format("%sBackup(result: %s)", uBackupPlugin.TAG, ChatUtils.colorized(result ? ChatColor.GREEN : ChatColor.RED, String.valueOf(result))));
                 if (throwable != null) {

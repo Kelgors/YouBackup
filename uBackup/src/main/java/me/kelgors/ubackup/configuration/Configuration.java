@@ -31,12 +31,27 @@ public class Configuration {
 
     public BackupConfiguration getConfiguration(String profile) {
         for (BackupConfiguration config : mBackups) {
-            if (config.name.equals(profile)) return config;
+            if (config.getName().equals(profile)) return config;
         }
         return null;
     }
 
     public List<BackupConfiguration> getConfigurations() {
         return mBackups;
+    }
+
+    public Long getNextCronAsTick() {
+        Long output = null;
+        for (BackupConfiguration config : mBackups) {
+            if (!config.isEnabled()) continue;
+            Long backupNextExecution = config.getNextExecutionRemainingTicks();
+            if (backupNextExecution == null) continue;
+            if (output == null) {
+                output = backupNextExecution;
+            } else if (output > backupNextExecution) {
+                output = backupNextExecution;
+            }
+        }
+        return output;
     }
 }

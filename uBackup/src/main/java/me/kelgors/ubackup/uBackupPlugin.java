@@ -13,12 +13,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,36 +28,24 @@ public class uBackupPlugin extends JavaPlugin {
 
     public static String TAG = String.format("[%suBackup%s] ", ChatColor.BLUE, ChatColor.RESET);
     public static String SERVER_TAG = "[Server] ";
-    private static uBackupPlugin __instance__;
+    private static final int PLUGIN_ID = 9539;
 
-    public static uBackupPlugin getInstance() {
-        return __instance__;
-    }
-
+    // used by commands
     private Permission mPermissionManager;
+    // used by save() and Compression/Storage API
     private Map<String, Class<? extends IStorage>> mStorage;
     private Map<String, Class<? extends ICompressor>> mCompressor;
+    // used by Compression/Storage plugins
     private Configuration mConfiguration;
-    private static final int PLUGIN_ID = 9539;
     private Metrics mMetrics;
 
-
+    //region Plugin API
     @Override
     public void onLoad() {
         super.onLoad();
-        __instance__ = this;
         getLogger().info("Loading uBackup...");
         mCompressor = new HashMap<>();
         mStorage = new HashMap<>();
-    }
-
-    private boolean loadPermissions()
-    {
-        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(Permission.class);
-        if (permissionProvider != null) {
-            mPermissionManager = permissionProvider.getProvider();
-        }
-        return (mPermissionManager != null);
     }
 
     @Override
@@ -66,7 +55,8 @@ public class uBackupPlugin extends JavaPlugin {
         saveDefaultConfig();
         setLogLevelFromConfig();
         mMetrics = new Metrics(this, PLUGIN_ID);
-
+        // load permissions for commands
+        // prepare commands
         try {
             if (!loadPermissions()) {
                 getLogger().warning("Unable to load permission from Vault. Please ensure you have Vault in your plugin folder");
@@ -82,34 +72,48 @@ public class uBackupPlugin extends JavaPlugin {
             getPluginLoader().disablePlugin(this);
             return;
         }
-
+        // parse configuration
         mConfiguration = new Configuration(getConfig());
+        // setup native extensions
         setCompression("zip", ZipCompressor.class);
         setStorage("file", FileStorage.class);
-        // setStorage("ftp", new FtpStorage(this));
+        // start cron when all plugins are loaded
+        getServer().getScheduler().scheduleSyncDelayedTask(this, this::startCron);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
         getLogger().info("Disable uBackup...");
-        if (mMetrics != null) mMetrics = null;
         getServer().getScheduler().cancelTasks(this);
-        mPermissionManager = null;
-        mConfiguration = null;
-        PluginCommand command = getCommand("ubackup");
+        final PluginCommand command = getCommand("ubackup");
         if (command != null) {
             command.setExecutor(null);
             command.setTabCompleter(null);
         }
+        mMetrics = null;
+        mPermissionManager = null;
+        mConfiguration = null;
         mCompressor.clear();
         mStorage.clear();
     }
+    //endregion
 
+    //region Permissions
     public Permission getPermissions() {
         return mPermissionManager;
     }
 
+    private boolean loadPermissions() {
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(Permission.class);
+        if (permissionProvider != null) {
+            mPermissionManager = permissionProvider.getProvider();
+        }
+        return (mPermissionManager != null);
+    }
+    //endregion
+
+    //region Compression/Storage API
     public void setStorage(String type, Class<? extends IStorage> storage) {
         mStorage.put(type, storage);
     }
@@ -125,7 +129,9 @@ public class uBackupPlugin extends JavaPlugin {
     public void removeCompression(String type) {
         mCompressor.remove(type);
     }
+    //endregion
 
+    //region Configuration
     public Configuration getConfiguration() {
         return mConfiguration;
     }
@@ -133,7 +139,9 @@ public class uBackupPlugin extends JavaPlugin {
     public BackupConfiguration getProfileConfiguration(String profile) {
         return mConfiguration.getConfiguration(profile);
     }
+    //endregion
 
+    //region Save profile
     public CompletableFuture<Boolean> save(String profile) {
         return save(profile, null);
     }
@@ -145,17 +153,17 @@ public class uBackupPlugin extends JavaPlugin {
             logger.warning(String.format("Missing configuration with profile %s", profile));
             return CompletableFuture.completedFuture(false);
         }
-        Class<? extends ICompressor> CompressorKlass = mCompressor.get((String) config.compression.get("type"));
-        Class<? extends IStorage> StorageKlass = mStorage.get((String) config.destination.get("type"));
+        Class<? extends ICompressor> CompressorKlass = mCompressor.get((String) config.getCompression().get("type"));
+        Class<? extends IStorage> StorageKlass = mStorage.get((String) config.getDestination().get("type"));
 
         ICompressor compressor = null;
         IStorage storage = null;
         if (CompressorKlass == null) {
-            logger.info(String.format("Unable to find compressor for %s", config.compression));
+            logger.info(String.format("Unable to find compressor for %s", config.getCompression()));
             return CompletableFuture.completedFuture(false);
         }
         if (StorageKlass == null) {
-            logger.info(String.format("Unable to find storage for %s", (String) config.destination.get("type")));
+            logger.info(String.format("Unable to find storage for %s", (String) config.getDestination().get("type")));
             return CompletableFuture.completedFuture(false);
         }
         try {
@@ -174,11 +182,26 @@ public class uBackupPlugin extends JavaPlugin {
                 .setCommandSender(sender)
                 .backup();
     }
+    //endregion
 
+    //region utils
     private void setLogLevelFromConfig() {
         final String logLevel = getConfig().getString("log_level", "INFO");
+        getLogger().info(String.format("Found Level.%s", logLevel));
         assert logLevel != null;
         getLogger().setLevel(Level.parse(logLevel.toUpperCase()));
     }
+    //endregion
 
+    //region startCron
+    void startCron() {
+        final Long remainingTicks = mConfiguration.getNextCronAsTick();
+        if (remainingTicks == null) {
+            getLogger().info("No backup profile to start");
+            return;
+        }
+        getLogger().info(String.format("Prepare next cron to be executed in %d ticks (%d seconds)", remainingTicks, remainingTicks / 20));
+        getServer().getScheduler().runTaskLater(this, new CronBackupRunner(this), remainingTicks + 20);
+    }
+    //endregion
 }

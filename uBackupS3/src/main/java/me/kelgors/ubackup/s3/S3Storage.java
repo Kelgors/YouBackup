@@ -2,6 +2,7 @@ package me.kelgors.ubackup.s3;
 
 import me.kelgors.ubackup.configuration.BackupConfiguration;
 import me.kelgors.ubackup.storage.IStorage;
+import me.kelgors.ubackup.storage.RemoteFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -11,13 +12,18 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.ListObjectsRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class S3Storage implements IStorage {
 
@@ -44,7 +50,7 @@ public class S3Storage implements IStorage {
     @Override
     public void prepare(BackupConfiguration config) {
         // get config from yaml
-        final ConfigurationSection destination = config.destination;
+        final ConfigurationSection destination = config.getDestination();
         mClientId = destination.getString("client_id", null);
         mClientSecret = destination.getString("client_secret", null);
         mBucket = destination.getString("bucket", null);
@@ -68,7 +74,23 @@ public class S3Storage implements IStorage {
     }
 
     @Override
-    public CompletableFuture<Boolean> backup(File file) {
+    public CompletableFuture<List<RemoteFile>> list() {
+        final ListObjectsRequest request = ListObjectsRequest.builder()
+                .bucket(mBucket)
+                .prefix(mPath)
+                .build();
+        return mClient.listObjects(request)
+                .thenCompose((res) -> {
+                    return CompletableFuture.completedFuture(
+                        res.contents().stream()
+                            .map((object) -> new RemoteFile(object.key(), object.lastModified().atZone(ZoneId.systemDefault())))
+                            .collect(Collectors.toList())
+                    );
+                });
+    }
+
+    @Override
+    public CompletableFuture<Boolean> create(File file) {
         final Logger logger = mPlugin.getLogger();
         final String filename = file.getName();
         // prepare request
@@ -97,9 +119,25 @@ public class S3Storage implements IStorage {
         return future.thenCompose(this::onS3UploadComplete);
     }
 
+    @Override
+    public CompletableFuture<Boolean> delete(RemoteFile remoteFile) {
+        final DeleteObjectRequest request = DeleteObjectRequest.builder()
+                .key(remoteFile.getName())
+                .bucket(mBucket)
+                .build();
+        mPlugin.getLogger().info(String.format("[S3Storage] Deleting %s to s3:%s/%s", remoteFile.getName(), mBucket, mPath));
+        return mClient.deleteObject(request)
+                .thenCompose((res) -> CompletableFuture.completedFuture(res.deleteMarker()));
+    }
+
+    @Override
+    public CompletableFuture<Boolean> close() {
+        mClient.close();
+        return CompletableFuture.completedFuture(true);
+    }
+
     private CompletableFuture<Boolean> onS3UploadComplete(PutObjectResponse putObjectResponse) {
         final CompletableFuture<Boolean> output = new CompletableFuture<>();
-        mClient.close();
         if (putObjectResponse != null) {
             mPlugin.getLogger().info("[S3Storage] Object uploaded. Details: " + putObjectResponse);
             output.complete(true);
@@ -107,7 +145,6 @@ public class S3Storage implements IStorage {
             mPlugin.getLogger().info("No response from AWS:S3");
             output.complete(false);
         }
-
         return output;
     }
 

@@ -8,6 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.time.format.DateTimeFormatter;
+
 public class InfoSubCommand extends AbsWorldRelatedSubCommand {
     @Override
     public boolean checkPermission(Player player) {
@@ -22,7 +24,7 @@ public class InfoSubCommand extends AbsWorldRelatedSubCommand {
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(uBackupPlugin.TAG + "Please specify a world name");
+            sender.sendMessage(uBackupPlugin.TAG + "Please specify a profile name");
             return true;
         }
         final String profileName = args[0];
@@ -32,9 +34,10 @@ public class InfoSubCommand extends AbsWorldRelatedSubCommand {
             return true;
         }
         sender.sendMessage(new String[] {
-                uBackupPlugin.TAG + "World(" + profileName + ")",
-                "- enabled: " + ChatUtils.colorized((config.enabled ? ChatColor.GREEN : ChatColor.RED) , String.valueOf(config.enabled)),
-                "- type: " + ChatUtils.colorized(ChatColor.GREEN, (String) config.destination.get("type"))
+                uBackupPlugin.TAG + "Profile(" + profileName + ")",
+                "- enabled: " + ChatUtils.colorized((config.isEnabled() ? ChatColor.GREEN : ChatColor.RED), String.valueOf(config.isEnabled())),
+                "- next: " + ChatUtils.colorized(ChatColor.GREEN, config.getNextExecutionTime().format(DateTimeFormatter.ISO_DATE_TIME)),
+                "- type: " + ChatUtils.colorized(ChatColor.GREEN, (String) config.getDestination().get("type"))
         });
         return true;
     }

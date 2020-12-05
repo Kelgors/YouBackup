@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 public abstract class AbsuBackupSubCommand extends AbsSubCommand {
     @Override
     protected boolean hasPermission(Player player, String permission) {
-        return uBackupPlugin.getInstance().getPermissions().has(player, permission);
+        return ((uBackupPlugin)mPlugin).getPermissions().has(player, permission);
     }
 
     protected Integer parseInt(String[] args, int index) {

@@ -7,7 +7,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +32,9 @@ public class ZipCompressor implements ICompressor {
 
     @Override
     public void prepare(final BackupConfiguration config) {
-        mProfileName = config.name;
-        mFilename = config.filename;
-        final ConfigurationSection compression = config.compression;
+        mProfileName = config.getName();
+        mFilename = config.getFilename();
+        final ConfigurationSection compression = config.getCompression();
         mIncludes = compression.getList("include", new ArrayList<>()).stream()
                 .map(item -> new File((String) item))
                 .collect(Collectors.toList());
