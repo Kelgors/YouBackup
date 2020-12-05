@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b12a89f2-60a6-4fa8-b928-c4236db12fc9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_cronutils_cron_utils_9_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_10_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_10_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_10_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_MilkBowl_VaultAPI_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_21_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_typesafe_netty_netty_reactive_streams_2_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_typesafe_netty_netty_reactive_streams_http_2_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_net_commons_net_3_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_http2_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_http_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_epoll_linux_x86_64_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_unix_common_4_1_53_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_16_R0_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bstats_bstats_bukkit_1_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bukkit_bukkit_1_13_1_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_28.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_16_4_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_26.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_annotations_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_apache_client_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_arns_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_auth_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_aws_core_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_aws_query_protocol_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_aws_xml_protocol_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_http_client_spi_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_metrics_spi_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_netty_nio_client_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_profiles_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_protocol_core_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_regions_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_s3_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_sdk_core_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_awssdk_utils_2_15_35.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__software_amazon_eventstream_eventstream_1_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Utils/utils.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouBackup-API/youbackup-api.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouBackup-Core/youbackup-core.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouBackup-FTP/youbackup-ftp.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouBackup-S3/youbackup-s3.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/youbackup-plugins.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/src/main/java/me/kelgors/ubackup/api/YouBackup.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/YouBackup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/src/main/java/me/kelgors/ubackup/api/compression/ICompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/compression/ICompressor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/src/main/java/me/kelgors/ubackup/api/configuration/IBackupConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/configuration/IBackupConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/src/main/java/me/kelgors/ubackup/api/storage/BasicRemoteFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/BasicRemoteFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/src/main/java/me/kelgors/ubackup/api/storage/IRemoteFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IRemoteFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/src/main/java/me/kelgors/ubackup/api/storage/IStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup-api/uBackup-api.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/BackupBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/BackupBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/CronBackupRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/CronBackupRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/FilenameFormatter.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/FilenameFormatter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/YouBackupPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/YouBackupPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/YouBackupCommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/YouBackupCommandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/AbsWorldRelatedSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/AbsProfileRelatedSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/AbsuBackupSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/AbsuBackupSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/HelpSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/HelpSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/ProfileSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/ProfileSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/ReloadSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/ReloadSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/profile/DisableSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/DisableSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/profile/EnableSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/EnableSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/profile/InfoSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/InfoSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/commands/ubackup/profile/NowSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/NowSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/compression/ZipCompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/compression/ZipCompressor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/configuration/BackupConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/BackupConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/configuration/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/configuration/ConfigurationSectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/ConfigurationSectionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/storage/FileStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/storage/FileStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/java/me/kelgors/ubackup/storage/RemoteFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/storage/RemoteFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackup/uBackup.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/uBackup.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupFTP/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupFTP/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupFTP/src/main/java/me/kelgors/ubackup/ftp/FtpStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/FtpStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupFTP/src/main/java/me/kelgors/ubackup/ftp/YouBackupFtpPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/YouBackupFtpPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupFTP/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupFTP/uBackupFTP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/uBackupFTP.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupS3/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupS3/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupS3/src/main/java/me/kelgors/ubackup/s3/S3Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/S3Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupS3/src/main/java/me/kelgors/ubackup/s3/YouBackupS3Plugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/YouBackupS3Plugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupS3/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uBackupS3/uBackupS3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/uBackupS3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ubackup-plugins.iml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1lFnle55iy47EyohPvNbcKjvH01" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/YouBackup-S3/pom.xml" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b12a89f2-60a6-4fa8-b928-c4236db12fc9" name="Default Changelist" comment="" />
+      <created>1607201859321</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607201859321</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2683" y="276" width="1024" height="840" key="#Project_Structure" timestamp="1607202343260">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2683" y="276" width="1024" height="840" key="#Project_Structure/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607202343260" />
+    <state x="2978" y="408" width="424" height="570" key="FileChooserDialogImpl" timestamp="1607202012041">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2978" y="408" width="424" height="570" key="FileChooserDialogImpl/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607202012041" />
+    <state width="2518" height="395" key="GridCell.Tab.0.bottom" timestamp="1607204184724">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="395" key="GridCell.Tab.0.bottom/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607204184724" />
+    <state width="2518" height="395" key="GridCell.Tab.0.center" timestamp="1607204184724">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="395" key="GridCell.Tab.0.center/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607204184724" />
+    <state width="2518" height="395" key="GridCell.Tab.0.left" timestamp="1607204184724">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="395" key="GridCell.Tab.0.left/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607204184724" />
+    <state width="2518" height="395" key="GridCell.Tab.0.right" timestamp="1607204184724">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="395" key="GridCell.Tab.0.right/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607204184724" />
+    <state x="2833" y="444" width="713" height="498" key="NewModule_or_Project.wizard" timestamp="1607201975407">
+      <screen x="1920" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2833" y="444" width="713" height="498" key="NewModule_or_Project.wizard/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607201975407" />
+  </component>
+</project>

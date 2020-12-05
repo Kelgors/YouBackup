@@ -1,0 +1,26 @@
+name: YouBackup
+version: 1.0.0
+author: Kelgors
+main: me.kelgors.youbackup.YouBackupPlugin
+api-version: 1.16
+softdepend: [ Vault ]
+commands:
+  youbackup:
+    description: YouBackup base command
+    usage: /youbackup help
+    aliases: yb
+permissions:
+  youbackup.*:
+    description: Access to all YouBackup commands
+  youbackup.help:
+    description: Can display YouBackup help
+  youbackup.reload:
+    description: Can reload the YouBackup configuration
+  youbackup.now:
+    description: Can perform a backup profile now
+  youbackup.disable:
+    description: Can disable a backup profile
+  youbackup.enable:
+    description: Can enable a backup profile
+  youbackup.info:
+    description: Can display information about the backup profile

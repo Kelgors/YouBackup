@@ -6,20 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ubackup-ftp" />
-        <module name="uBackup-api" />
-        <module name="ubackup" />
+        <module name="youbackup-core" />
+        <module name="youbackup-ftp" />
+        <module name="youbackup-api" />
+        <module name="youbackup-s3" />
         <module name="utils" />
-        <module name="ubackup-s3" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="uBackup" target="1.8" />
-      <module name="ubackup-ftp (1)" target="1.8" />
-      <module name="ubackup-ftp (2)" target="1.8" />
-      <module name="uBackupFTP" target="1.8" />
-      <module name="uBackupS3" target="1.8" />
-      <module name="Utils" target="1.8" />
+      <module name="utils" target="1.8" />
+      <module name="youbackup-api" target="1.8" />
+      <module name="youbackup-core" target="1.8" />
+      <module name="youbackup-ftp" target="1.8" />
+      <module name="youbackup-plugins" target="1.8" />
+      <module name="youbackup-s3" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

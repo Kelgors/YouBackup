@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.kelgors</groupId>
-    <artifactId>ubackup-plugins</artifactId>
+    <artifactId>youbackup-plugins</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
     <properties>
@@ -15,10 +15,10 @@
     </properties>
     <modules>
         <module>Utils</module>
-        <module>uBackup</module>
-        <module>uBackupS3</module>
-        <module>uBackupFTP</module>
-        <module>uBackup-api</module>
+        <module>YouBackup-API</module>
+        <module>YouBackup-Core</module>
+        <module>YouBackup-S3</module>
+        <module>YouBackup-FTP</module>
     </modules>
     <repositories>
         <!-- Spigot -->
