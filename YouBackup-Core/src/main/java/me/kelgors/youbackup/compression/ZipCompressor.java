@@ -1,14 +1,15 @@
 package me.kelgors.youbackup.compression;
 
-import me.kelgors.youbackup.FilenameFormatter;
 import me.kelgors.youbackup.api.compression.ICompressor;
 import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
-import java.io.*;
-import java.time.LocalDateTime;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,8 @@ public class ZipCompressor implements ICompressor {
     List<File> mExcludes;
     String mProfileName;
 
+    File mOutputFile;
+
     public ZipCompressor(Plugin plugin) {
         mPlugin = plugin;
     }
@@ -42,6 +45,7 @@ public class ZipCompressor implements ICompressor {
         mExcludes = compression.getList("exclude", new ArrayList<>()).stream()
                 .map(item -> new File((String) item))
                 .collect(Collectors.toList());
+        mExcludes.add(new File("plugins/YouBackup/work"));
         mWorlds = compression.getList("worlds", new ArrayList<>()).stream()
                 .map(item -> (String) item)
                 .collect(Collectors.toList());
@@ -54,9 +58,9 @@ public class ZipCompressor implements ICompressor {
     }
 
     @Override
-    public CompletableFuture<File> compress() {
+    public CompletableFuture<File> compress(File outputFile) {
+        mOutputFile = outputFile;
         // save worlds && get world folders
-        final List<File> files;
         final CompletableFuture<File> output = saveWorlds()
                 .thenApply((list) -> {
                     // add path in include property
@@ -118,17 +122,10 @@ public class ZipCompressor implements ICompressor {
         mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, () -> {
             final Logger logger = mPlugin.getLogger();
             logger.info("Begin zipping");
-            // preparing file
-            final String filename = FilenameFormatter.format(mFilename, LocalDateTime.now(), mProfileName);
-            final File tmpFile = new File(filename);
             ZipOutputStream zout = null;
             try {
-                // try creating it
-                if (!tmpFile.createNewFile()) {
-                    logger.severe("Cannot create file in : " + tmpFile.getAbsolutePath());
-                }
                 // preparing zipping
-                final FileOutputStream fileOutputStream = new FileOutputStream(tmpFile);
+                final FileOutputStream fileOutputStream = new FileOutputStream(mOutputFile);
                 zout = new ZipOutputStream(fileOutputStream);
                 // zip files
                 for (File item : files) {
@@ -139,9 +136,6 @@ public class ZipCompressor implements ICompressor {
                     }
                 }
                 logger.info("Zipping done");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                output.completeExceptionally(e);
             } catch (IOException e) {
                 e.printStackTrace();
                 output.completeExceptionally(e);
@@ -150,14 +144,14 @@ public class ZipCompressor implements ICompressor {
                 try {
                     if (zout != null) zout.close();
                 } catch (IOException ioex) {
-                    logger.warning("Cannot close the zip stream for: " + tmpFile.getAbsolutePath());
+                    logger.warning("Cannot close the zip stream for: " + mOutputFile.getAbsolutePath());
                     if (!output.isCompletedExceptionally()) {
                         output.completeExceptionally(ioex);
                     }
                 }
                 // complete future
                 if (!output.isCompletedExceptionally()) {
-                    output.complete(tmpFile);
+                    output.complete(mOutputFile);
                 }
             }
         });

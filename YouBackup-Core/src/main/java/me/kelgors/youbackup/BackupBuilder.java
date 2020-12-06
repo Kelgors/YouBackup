@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -77,7 +79,28 @@ public class BackupBuilder {
 
     private CompletableFuture<File> compress() {
         notifySender("Compressing...");
-        return mCompressor.compress();
+        // prepare file
+        final CompletableFuture<File> exOutput = new CompletableFuture<>();
+        final String filename = FilenameFormatter.format(mConfig.getFilename(), LocalDateTime.now(), mConfig.getName());
+        final File workDir = new File(mPlugin.getDataFolder(), "work");
+        final File file = new File(workDir, File.separator + filename);
+        try {
+            if (!workDir.exists() &&!workDir.mkdir()) {
+                mPlugin.getLogger().severe("Cannot create directory " + workDir.getAbsolutePath());
+                exOutput.completeExceptionally(new Exception("Cannot create directory " + workDir.getAbsolutePath()));
+                return exOutput;
+            }
+            if (!file.createNewFile()) {
+                mPlugin.getLogger().severe("Cannot create file " + file.getAbsolutePath());
+                exOutput.completeExceptionally(new Exception("Cannot create file " + file.getAbsolutePath()));
+                return exOutput;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            exOutput.completeExceptionally(e);
+            return exOutput;
+        }
+        return mCompressor.compress(file);
     }
 
     private CompletableFuture<Boolean> store(File file) {

@@ -7,5 +7,5 @@ import java.util.concurrent.CompletableFuture;
 
 public interface ICompressor {
     void prepare(IBackupConfiguration config);
-    CompletableFuture<File> compress();
+    CompletableFuture<File> compress(File outputFile);
 }

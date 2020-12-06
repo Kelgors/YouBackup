@@ -2,6 +2,7 @@ package me.kelgors.youbackup.s3;
 
 import me.kelgors.youbackup.api.YouBackup;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class YouBackupS3Plugin extends JavaPlugin {
@@ -15,11 +16,12 @@ public class YouBackupS3Plugin extends JavaPlugin {
         super.onEnable();
         getLogger().warning("Add S3 storage to YouBackup");
         mMetrics = new Metrics(this, PLUGIN_ID);
-        mYouBackup = (YouBackup) getServer().getPluginManager().getPlugin("YouBackup");
-        if (mYouBackup != null) {
-            mYouBackup.setStorage(S3Storage.STORAGE_TYPE, S3Storage.class);
+        final RegisteredServiceProvider<YouBackup> serviceProvider = getServer().getServicesManager().getRegistration(YouBackup.class);
+        if (serviceProvider != null) {
+            mYouBackup = serviceProvider.getProvider();
+            mYouBackup.registerStorage(S3Storage.STORAGE_TYPE, S3Storage.class, this);
         } else {
-            getLogger().warning("Unable to find YouBackup plugin. Cannot add S3 storage.");
+            getLogger().severe("Cannot found service provider YouBackup");
             getServer().getPluginManager().disablePlugin(this);
         }
     }
@@ -29,9 +31,9 @@ public class YouBackupS3Plugin extends JavaPlugin {
         super.onDisable();
         mMetrics = null;
         if (mYouBackup != null) {
-            getLogger().warning("Remove S3 storage from YouBackup");
-            mYouBackup.removeStorage(S3Storage.STORAGE_TYPE);
-            mYouBackup= null;
+            getLogger().info("Remove S3 storage from YouBackup");
+            mYouBackup.unregisterStorage(S3Storage.STORAGE_TYPE, this);
+            mYouBackup = null;
         }
     }
 }

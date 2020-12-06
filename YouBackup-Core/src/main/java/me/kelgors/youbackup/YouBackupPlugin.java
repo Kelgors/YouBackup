@@ -8,42 +8,35 @@ import me.kelgors.youbackup.commands.youbackup.profile.name.ProfileNameSubComman
 import me.kelgors.youbackup.compression.ZipCompressor;
 import me.kelgors.youbackup.configuration.BackupConfiguration;
 import me.kelgors.youbackup.configuration.Configuration;
+import me.kelgors.youbackup.extension.InstantiationUtils;
+import me.kelgors.youbackup.extension.RegisteredExtension;
+import me.kelgors.youbackup.extension.YouBackupManager;
 import me.kelgors.youbackup.storage.FileStorage;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class YouBackupPlugin extends JavaPlugin implements YouBackup {
+public class YouBackupPlugin extends JavaPlugin {
 
     public static String TAG = String.format("[%sYouBackup%s] ", ChatColor.BLUE, ChatColor.RESET);
     private static final int PLUGIN_ID = 9567;
 
     // used by commands
     private YouBackupCommandManager mCommandManager;
-    // used by save() and Compression/Storage API
-    private Map<String, Class<? extends IStorage>> mStorage;
-    private Map<String, Class<? extends ICompressor>> mCompressor;
     // used by Compression/Storage plugins
     private Configuration mConfiguration;
     private Metrics mMetrics;
+    private YouBackupManager mYouBackupManager;
 
     //region Plugin API
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        mCompressor = new HashMap<>();
-        mStorage = new HashMap<>();
-    }
 
     @Override
     public void onEnable() {
@@ -54,27 +47,19 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
         mConfiguration = new Configuration(getConfig());
         // metrics
         mMetrics = new Metrics(this, PLUGIN_ID);
-        try {
-            // load permissions for commands
-//            if (!loadPermissions()) {
-//                getLogger().warning("Unable to load permission from Vault. Please ensure you have Vault in your plugin folder");
-//            }
-            // prepare commands
-            PluginCommand command = getCommand("youbackup");
-            if (command != null) {
-                mCommandManager = new YouBackupCommandManager(this);
-                command.setExecutor(mCommandManager);
-                command.setTabCompleter(mCommandManager);
-                loadCommands();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            getPluginLoader().disablePlugin(this);
-            return;
+        // prepare commands
+        final PluginCommand command = getCommand("youbackup");
+        if (command != null) {
+            mCommandManager = new YouBackupCommandManager(this);
+            command.setExecutor(mCommandManager);
+            command.setTabCompleter(mCommandManager);
+            loadCommands();
         }
+        mYouBackupManager = new YouBackupManager();
+        getServer().getServicesManager().register(YouBackup.class, mYouBackupManager, this, ServicePriority.Normal);
         // setup native extensions
-        setCompression("zip", ZipCompressor.class);
-        setStorage("file", FileStorage.class);
+        mYouBackupManager.registerCompression("zip", ZipCompressor.class, this);
+        mYouBackupManager.registerStorage("file", FileStorage.class, this);
         // start cron when all plugins are loaded
         getServer().getScheduler().scheduleSyncDelayedTask(this, this::startCron);
     }
@@ -88,11 +73,13 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
             command.setExecutor(null);
             command.setTabCompleter(null);
         }
+        if (mYouBackupManager != null) {
+            mYouBackupManager.clear();
+            mYouBackupManager = null;
+        }
         mMetrics = null;
         mCommandManager = null;
         mConfiguration = null;
-        mCompressor.clear();
-        mStorage.clear();
     }
     //endregion
 
@@ -119,24 +106,6 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
         startCron();
     }
 
-    //region Compression/Storage API
-    public void setStorage(String type, Class<? extends IStorage> storage) {
-        mStorage.put(type, storage);
-    }
-
-    public void setCompression(String type, Class<? extends ICompressor> compressor) {
-        mCompressor.put(type, compressor);
-    }
-
-    public void removeStorage(String type) {
-        mStorage.remove(type);
-    }
-
-    public void removeCompression(String type) {
-        mCompressor.remove(type);
-    }
-    //endregion
-
     //region Configuration
     public Configuration getConfiguration() {
         return mConfiguration;
@@ -159,25 +128,26 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
             logger.warning(String.format("Missing configuration with profile %s", profile));
             return CompletableFuture.completedFuture(false);
         }
-        Class<? extends ICompressor> CompressorKlass = mCompressor.get(config.getCompression().getString("type"));
-        Class<? extends IStorage> StorageKlass = mStorage.get(config.getDestination().getString("type"));
+        final RegisteredExtension<ICompressor> CompressorExt = mYouBackupManager.getRegisteredCompressor(config.getCompression().getString("type"));
+        final RegisteredExtension<IStorage> StorageExt = mYouBackupManager.getRegisteredStorage(config.getDestination().getString("type"));
 
-        ICompressor compressor = null;
-        IStorage storage = null;
-        if (CompressorKlass == null) {
+        if (CompressorExt == null) {
             logger.info(String.format("Unable to find compressor for %s", config.getCompression()));
             return CompletableFuture.completedFuture(false);
         }
-        if (StorageKlass == null) {
+        if (StorageExt == null) {
             logger.info(String.format("Unable to find storage for %s", (String) config.getDestination().get("type")));
             return CompletableFuture.completedFuture(false);
         }
+
+        ICompressor compressor = null;
+        IStorage storage = null;
         try {
-            logger.info(String.format("Prepare compression with : %s", CompressorKlass.getCanonicalName()));
-            compressor = CompressorKlass.getDeclaredConstructor(Plugin.class).newInstance(this);
-            logger.info(String.format("Prepare storage with : %s", StorageKlass.getCanonicalName()));
-            storage = StorageKlass.getDeclaredConstructor(Plugin.class).newInstance(this);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            logger.info(String.format("Prepare compression with : %s", CompressorExt.getExtension()));
+            compressor = InstantiationUtils.instantiateCompressor(CompressorExt.getExtension(), CompressorExt.getPlugin());
+            logger.info(String.format("Prepare storage with : %s", StorageExt.getExtension()));
+            storage = InstantiationUtils.instantiateStorage(StorageExt.getExtension(), StorageExt.getPlugin());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
         if (compressor == null || storage == null) return CompletableFuture.completedFuture(false);
@@ -188,6 +158,8 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
                 .setCommandSender(sender)
                 .backup();
     }
+
+
     //endregion
 
     //region utils

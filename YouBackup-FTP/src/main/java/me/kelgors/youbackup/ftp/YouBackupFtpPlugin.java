@@ -2,6 +2,7 @@ package me.kelgors.youbackup.ftp;
 
 import me.kelgors.youbackup.api.YouBackup;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class YouBackupFtpPlugin extends JavaPlugin {
@@ -16,11 +17,12 @@ public class YouBackupFtpPlugin extends JavaPlugin {
         super.onEnable();
         getLogger().warning("Add FTP storage to YouBackup");
         mMetrics = new Metrics(this, PLUGIN_ID);
-        mYouBackup = (YouBackup) getServer().getPluginManager().getPlugin("YouBackup");
-        if (mYouBackup != null) {
-            mYouBackup.setStorage(FtpStorage.STORAGE_TYPE, FtpStorage.class);
+        final RegisteredServiceProvider<YouBackup> serviceProvider = getServer().getServicesManager().getRegistration(YouBackup.class);
+        if (serviceProvider != null) {
+            mYouBackup = serviceProvider.getProvider();
+            mYouBackup.registerStorage(FtpStorage.STORAGE_TYPE, FtpStorage.class, this);
         } else {
-            getLogger().warning("Unable to find YouBackup plugin. Cannot add FTP storage.");
+            getLogger().severe("Cannot found service provider YouBackup");
             getServer().getPluginManager().disablePlugin(this);
         }
     }
@@ -30,8 +32,8 @@ public class YouBackupFtpPlugin extends JavaPlugin {
         super.onDisable();
         mMetrics = null;
         if (mYouBackup != null) {
-            getLogger().warning("Remove FTP storage to YouBackup");
-            mYouBackup.removeStorage(FtpStorage.STORAGE_TYPE);
+            getLogger().info("Remove FTP storage from YouBackup");
+            mYouBackup.unregisterStorage(FtpStorage.STORAGE_TYPE, this);
             mYouBackup = null;
         }
     }

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/YouBackup-Dummy/YouBackup-Dummy.iml" filepath="$PROJECT_DIR$/YouBackup-Dummy/YouBackup-Dummy.iml" />
       <module fileurl="file://$PROJECT_DIR$/Utils/utils.iml" filepath="$PROJECT_DIR$/Utils/utils.iml" />
       <module fileurl="file://$PROJECT_DIR$/YouBackup-API/youbackup-api.iml" filepath="$PROJECT_DIR$/YouBackup-API/youbackup-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/YouBackup-Core/youbackup-core.iml" filepath="$PROJECT_DIR$/YouBackup-Core/youbackup-core.iml" />

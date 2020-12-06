@@ -1,0 +1,7 @@
+# plugin.yml
+name: MyZipPlugin
+version: 1.0.0
+author: Kelgors
+main: tld.yourself.youbackup.zip.MyZipPlugin
+api-version: 1.13
+depend: [ YouBackup ]

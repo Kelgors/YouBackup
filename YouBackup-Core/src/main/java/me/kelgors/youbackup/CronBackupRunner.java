@@ -18,6 +18,7 @@ public class CronBackupRunner implements Runnable {
     @Override
     public void run() {
         mPlugin.getLogger().info("Start running task");
+        boolean isRunning = false;
         final Configuration config = mPlugin.getConfiguration();
         final ZonedDateTime now = ZonedDateTime.now();
         CompletableFuture<Boolean> future = CompletableFuture.completedFuture(true);
@@ -25,7 +26,11 @@ public class CronBackupRunner implements Runnable {
             if (backup.isEnabled() && backup.getNextExecutionTime().isBefore(now)) {
                 future = future.thenCompose((b) -> mPlugin.save(backup.getName()).whenComplete(new OnSaveComplete(mPlugin, backup)));
                 backup.resetNextExecutionTime();
+                isRunning = true;
             }
+        }
+        if (!isRunning) {
+            mPlugin.getLogger().warning("No tasks have been launched");
         }
         mPlugin.startCron();
     }
