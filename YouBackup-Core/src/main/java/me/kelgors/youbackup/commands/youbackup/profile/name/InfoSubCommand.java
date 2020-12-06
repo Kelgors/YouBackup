@@ -1,7 +1,9 @@
-package me.kelgors.youbackup.commands.youbackup.profile;
+package me.kelgors.youbackup.commands.youbackup.profile.name;
 
 import me.kelgors.utils.chat.ChatUtils;
+import me.kelgors.utils.commands.CommandUtils;
 import me.kelgors.youbackup.YouBackupPlugin;
+import me.kelgors.youbackup.commands.youbackup.AbsYouBackupSubCommand;
 import me.kelgors.youbackup.configuration.BackupConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,7 +12,10 @@ import org.bukkit.entity.Player;
 
 import java.time.format.DateTimeFormatter;
 
-public class InfoSubCommand extends AbsProfileRelatedSubCommand {
+/**
+ * /yb profile &lt;profile&gt; info
+ */
+public class InfoSubCommand extends AbsYouBackupSubCommand {
     private final String mProfileName;
 
     public InfoSubCommand(String profileName) {
@@ -19,7 +24,11 @@ public class InfoSubCommand extends AbsProfileRelatedSubCommand {
 
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("youbackup.info") || player.hasPermission("youbackup.*");
+        return CommandUtils.hasAnyPermission(player, new String[] {
+                String.format("youbackup.%s.info", mProfileName),
+                String.format("youbackup.%s.*", mProfileName),
+                "youbackup.*"
+        });
     }
 
     @Override

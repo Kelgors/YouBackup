@@ -5,7 +5,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ReloadSubCommand extends AbsuBackupSubCommand {
+/**
+ * /yb reload
+ */
+public class ReloadSubCommand extends AbsYouBackupSubCommand {
     @Override
     public boolean checkPermission(Player player) {
         return player.hasPermission("youbackup.reload") || player.hasPermission("youbackup.*");

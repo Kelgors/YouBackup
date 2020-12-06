@@ -8,7 +8,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelpSubCommand extends AbsuBackupSubCommand {
+/**
+ * /yb
+ * /yb help
+ */
+public class HelpSubCommand extends AbsYouBackupSubCommand {
 
     private final String HELP_MESSAGE = "\n  - help: display this message"
             + "\n  - reload: reload YouBackup configuration"
@@ -18,7 +22,7 @@ public class HelpSubCommand extends AbsuBackupSubCommand {
 
     @Override
     public boolean checkPermission(Player player) {
-        return ((YouBackupPlugin) mPlugin).getPermissions().has(player, "youbackup.help");// player.hasPermission("youbackup.help") || player.hasPermission("youbackup.*");
+        return player.hasPermission("youbackup.help") || player.hasPermission("youbackup.*");
     }
 
     @Override

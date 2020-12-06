@@ -6,6 +6,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,11 +68,9 @@ public abstract class AbsSubCommand implements TabCompleter {
      */
     public abstract boolean execute(Player player, Command command, String commandName, String[] args);
 
-    protected abstract boolean hasPermission(Player player, String permission);
-
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String label, String[] args) {
-        return null;
+        return new ArrayList<>();
     }
 }
 

@@ -2,5 +2,5 @@ name: YouBackup-FTP
 version: 1.0.0
 author: Kelgors
 main: me.kelgors.youbackup.ftp.YouBackupFtpPlugin
-api-version: 1.16
+api-version: 1.13
 depend: [ YouBackup ]

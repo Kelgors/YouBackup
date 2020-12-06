@@ -2,14 +2,8 @@ package me.kelgors.youbackup.commands.youbackup;
 
 import me.kelgors.utils.commands.AbsSubCommand;
 import me.kelgors.utils.commands.CommandUtils;
-import me.kelgors.youbackup.YouBackupPlugin;
-import org.bukkit.entity.Player;
 
-public abstract class AbsuBackupSubCommand extends AbsSubCommand {
-    @Override
-    protected boolean hasPermission(Player player, String permission) {
-        return ((YouBackupPlugin)mPlugin).getPermissions().has(player, permission);
-    }
+public abstract class AbsYouBackupSubCommand extends AbsSubCommand {
 
     protected Integer parseInt(String[] args, int index) {
         return parseInt(args, index, null);

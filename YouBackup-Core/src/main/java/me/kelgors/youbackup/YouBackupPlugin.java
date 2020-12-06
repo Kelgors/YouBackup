@@ -4,18 +4,16 @@ import me.kelgors.youbackup.api.YouBackup;
 import me.kelgors.youbackup.api.compression.ICompressor;
 import me.kelgors.youbackup.api.storage.IStorage;
 import me.kelgors.youbackup.commands.YouBackupCommandManager;
-import me.kelgors.youbackup.commands.youbackup.ProfileSubCommand;
+import me.kelgors.youbackup.commands.youbackup.profile.name.ProfileNameSubCommand;
 import me.kelgors.youbackup.compression.ZipCompressor;
 import me.kelgors.youbackup.configuration.BackupConfiguration;
 import me.kelgors.youbackup.configuration.Configuration;
 import me.kelgors.youbackup.storage.FileStorage;
-import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,12 +26,10 @@ import java.util.logging.Logger;
 public class YouBackupPlugin extends JavaPlugin implements YouBackup {
 
     public static String TAG = String.format("[%sYouBackup%s] ", ChatColor.BLUE, ChatColor.RESET);
-    public static String SERVER_TAG = "[Server] ";
     private static final int PLUGIN_ID = 9567;
 
     // used by commands
     private YouBackupCommandManager mCommandManager;
-    private Permission mPermissionManager;
     // used by save() and Compression/Storage API
     private Map<String, Class<? extends IStorage>> mStorage;
     private Map<String, Class<? extends ICompressor>> mCompressor;
@@ -60,9 +56,9 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
         mMetrics = new Metrics(this, PLUGIN_ID);
         try {
             // load permissions for commands
-            if (!loadPermissions()) {
-                getLogger().warning("Unable to load permission from Vault. Please ensure you have Vault in your plugin folder");
-            }
+//            if (!loadPermissions()) {
+//                getLogger().warning("Unable to load permission from Vault. Please ensure you have Vault in your plugin folder");
+//            }
             // prepare commands
             PluginCommand command = getCommand("youbackup");
             if (command != null) {
@@ -94,7 +90,6 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
         }
         mMetrics = null;
         mCommandManager = null;
-        mPermissionManager = null;
         mConfiguration = null;
         mCompressor.clear();
         mStorage.clear();
@@ -104,12 +99,12 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
     //region Commands
     public void loadCommands() {
         for (BackupConfiguration config : mConfiguration.getConfigurations()) {
-            mCommandManager.addSubCommand(config.getName(), new ProfileSubCommand(this, config.getName()));
+            mCommandManager.getProfileCommandManager().addSubCommand(config.getName(), new ProfileNameSubCommand(this, config.getName()));
         }
     }
     public void unloadCommands() {
         for (BackupConfiguration config : mConfiguration.getConfigurations()) {
-            mCommandManager.removeSubCommand(config.getName());
+            mCommandManager.getProfileCommandManager().removeSubCommand(config.getName());
         }
     }
     //endregion
@@ -123,20 +118,6 @@ public class YouBackupPlugin extends JavaPlugin implements YouBackup {
         loadCommands();
         startCron();
     }
-
-    //region Permissions
-    public Permission getPermissions() {
-        return mPermissionManager;
-    }
-
-    private boolean loadPermissions() {
-        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(Permission.class);
-        if (permissionProvider != null) {
-            mPermissionManager = permissionProvider.getProvider();
-        }
-        return (mPermissionManager != null);
-    }
-    //endregion
 
     //region Compression/Storage API
     public void setStorage(String type, Class<? extends IStorage> storage) {

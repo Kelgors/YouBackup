@@ -41,14 +41,18 @@ public abstract class CommandManager<T extends Plugin> implements CommandExecuto
         // if there is a label
         AbsSubCommand sc = commands.get(label);
         if (sc != null) {
-            if (sc.isOnlyPlayerSubCommand()) {
-                if (sender instanceof Player && sc.checkPermission((Player) sender)) {
+            if (sender instanceof Player) {
+                // PLAYER
+                if (sc.checkPermission((Player) sender)) {
                     return sc.execute((Player) sender, command, label, Arrays.copyOfRange(args, 1, args.length));
                 } else {
-                    sender.sendMessage(ChatColor.RED + NOT_PLAYER);
+                    sender.sendMessage(CommandUtils.NO_PERMISSIONS);
                 }
-            } else {
+            } else if (!sc.isOnlyPlayerSubCommand()) {
+                // CONSOLE
                 return sc.execute(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
+            } else {
+                sender.sendMessage(ChatColor.RED + NOT_PLAYER);
             }
         }
         return true;
@@ -97,12 +101,15 @@ public abstract class CommandManager<T extends Plugin> implements CommandExecuto
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String label, String[] args) {
-        mBasePlugin.getLogger().info(Arrays.toString(args));
         if (command == null || args.length == 0)  return null;
         final Set<String> set = commands.keySet();
         final List<String> output = new ArrayList<>();
         final String arg0 = args[0];
+        final boolean isPlayer = commandSender instanceof Player;
         for (String commandName : set) {
+            if (isPlayer && !commands.get(commandName).checkPermission((Player) commandSender)) {
+                continue;
+            }
             boolean is0Empty = "".equals(arg0);
             if (is0Empty || commandName.startsWith(arg0)) {
                 if (!is0Empty && args.length > 1) {

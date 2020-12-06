@@ -1,23 +1,32 @@
-package me.kelgors.youbackup.commands.youbackup.profile;
+package me.kelgors.youbackup.commands.youbackup.profile.name;
 
 import me.kelgors.utils.chat.ChatUtils;
+import me.kelgors.utils.commands.CommandUtils;
 import me.kelgors.youbackup.YouBackupPlugin;
+import me.kelgors.youbackup.commands.youbackup.AbsYouBackupSubCommand;
 import me.kelgors.youbackup.configuration.BackupConfiguration;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class NowSubCommand extends AbsProfileRelatedSubCommand {
+/**
+ * /yb profile &lt;profile&gt; disable
+ */
+public class DisableSubCommand extends AbsYouBackupSubCommand {
     private final String mProfileName;
 
-    public NowSubCommand(String profileName) {
+    public DisableSubCommand(String profileName) {
         mProfileName = profileName;
     }
 
     @Override
     public boolean checkPermission(Player player) {
-        return player.hasPermission("youbackup.now") || player.hasPermission("youbackup.*");
+        return CommandUtils.hasAnyPermission(player, new String[] {
+                String.format("youbackup.%s.disable", mProfileName),
+                String.format("youbackup.%s.*", mProfileName),
+                "youbackup.*"
+        });
     }
 
     @Override
@@ -27,19 +36,15 @@ public class NowSubCommand extends AbsProfileRelatedSubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
-        BackupConfiguration config = ((YouBackupPlugin)mPlugin).getProfileConfiguration(mProfileName);
+        final BackupConfiguration config = ((YouBackupPlugin) mPlugin).getProfileConfiguration(mProfileName);
         if (config == null) {
             sender.sendMessage(YouBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, mProfileName) + " in YouBackup config.yml");
             return true;
         }
-
-        ((YouBackupPlugin) mPlugin).save(mProfileName, sender)
-            .whenComplete((result, throwable) -> {
-                sender.sendMessage(String.format("%sBackup(result: %s)", YouBackupPlugin.TAG, ChatUtils.colorized(result ? ChatColor.GREEN : ChatColor.RED, String.valueOf(result))));
-                if (throwable != null) {
-                    sender.sendMessage(YouBackupPlugin.TAG + ChatUtils.colorized(ChatColor.RED, throwable.getLocalizedMessage()));
-                }
-            });
+        mPlugin.getConfig().set(String.format("backups.%s.enabled", mProfileName), false);
+        mPlugin.saveConfig();
+        config.setEnabled(false);
+        sender.sendMessage(String.format("The world %s has been disabled", ChatUtils.colorized(ChatColor.BLUE, mProfileName)));
         return true;
     }
 
