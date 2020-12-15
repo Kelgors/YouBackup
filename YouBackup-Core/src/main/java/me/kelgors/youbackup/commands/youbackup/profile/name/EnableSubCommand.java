@@ -25,6 +25,7 @@ public class EnableSubCommand extends AbsYouBackupSubCommand {
         return CommandUtils.hasAnyPermission(player, new String[] {
                 String.format("youbackup.%s.enable", mProfileName),
                 String.format("youbackup.%s.*", mProfileName),
+                "youbackup.profile.*",
                 "youbackup.*"
         });
     }

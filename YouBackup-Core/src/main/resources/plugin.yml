@@ -7,8 +7,9 @@ softdepend: [ Vault ]
 commands:
   youbackup:
     description: YouBackup base command
-    usage: /youbackup help
+    usage: /youbackup (help|reload|profile <profile> [info|enable|disable|now])
     aliases: yb
+    permission: youbackup.use
 permissions:
   youbackup.*:
     description: Access to all YouBackup commands
@@ -16,11 +17,15 @@ permissions:
     description: Can display YouBackup help
   youbackup.reload:
     description: Can reload the YouBackup configuration
-  youbackup.now:
+  youbackup.profile.*:
+    description: Can perform any operation on any profile
+  youbackup.profile.<profile>.*:
+    description: Can perform any operation on given profile
+  youbackup.profile.<profile>.now:
     description: Can perform a backup profile now
-  youbackup.disable:
+  youbackup.profile.<profile>.disable:
     description: Can disable a backup profile
-  youbackup.enable:
+  youbackup.profile.<profile>.enable:
     description: Can enable a backup profile
-  youbackup.info:
+  youbackup.profile.<profile>.info:
     description: Can display information about the backup profile

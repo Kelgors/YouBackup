@@ -32,6 +32,7 @@ public class ProfileNameSubCommand extends AbsYouBackupSubCommand {
     public boolean checkPermission(Player player) {
         return CommandUtils.hasAnyPermission(player, new String[] {
                 String.format("youbackup.%s.*", mProfileName),
+                "youbackup.profile.*",
                 "youbackup.*"
         }) || mSubCommandManager.getCommand("info").checkPermission(player);
     }

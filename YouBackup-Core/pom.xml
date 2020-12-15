@@ -88,8 +88,19 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <!-- Replace this with your package! -->
                             <shadedPattern>me.kelgors.youbackup</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.cronutils</pattern>
+                            <shadedPattern>me.kelgors.youbackup.cronutils</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>me.kelgors.utils</pattern>
+                            <shadedPattern>me.kelgors.youbackup.utils</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.slf4j</pattern>
+                            <shadedPattern>me.kelgors.youbackup.slf4j</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

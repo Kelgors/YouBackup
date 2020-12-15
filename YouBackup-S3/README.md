@@ -1,19 +1,13 @@
 ## YouBackup-S3
 
+YouBackup extension to backup your files on Amazon Web Service Simple Storage Service (S3).
+
 ### config.yml (in plugins/uBackup)
 
 ```yaml
 backups:
   your_profile:
-    enabled: true
-    cron: 0 3 * * SUN # every sunday at 3:00
-    filename: "{date}{time}.zip"
-    rotation: 5
-    compression:
-      type: zip
-      include:
-        - plugins/
-      # ...
+    # ...
     destination:
       # Set it to s3
       type: s3

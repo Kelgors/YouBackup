@@ -55,7 +55,7 @@ public class YouBackupPlugin extends JavaPlugin {
             command.setTabCompleter(mCommandManager);
             loadCommands();
         }
-        mYouBackupManager = new YouBackupManager();
+        mYouBackupManager = new YouBackupManager(getDescription().getVersion());
         getServer().getServicesManager().register(YouBackup.class, mYouBackupManager, this, ServicePriority.Normal);
         // setup native extensions
         mYouBackupManager.registerCompression("zip", ZipCompressor.class, this);
@@ -122,8 +122,9 @@ public class YouBackupPlugin extends JavaPlugin {
     }
 
     public CompletableFuture<Boolean> save(String profile, CommandSender sender) {
-        final BackupConfiguration config = mConfiguration.getConfiguration(profile);
         final Logger logger = getLogger();
+        logger.info(String.format("Running profile %s", profile));
+        final BackupConfiguration config = mConfiguration.getConfiguration(profile);
         if (config == null) {
             logger.warning(String.format("Missing configuration with profile %s", profile));
             return CompletableFuture.completedFuture(false);
@@ -164,10 +165,10 @@ public class YouBackupPlugin extends JavaPlugin {
 
     //region utils
     private void setLogLevelFromConfig() {
-        final String logLevel = getConfig().getString("log_level", "INFO");
-        getLogger().info(String.format("Found Level.%s", logLevel));
-        assert logLevel != null;
-        getLogger().setLevel(Level.parse(logLevel.toUpperCase()));
+        final boolean isVerbose = getConfig().getBoolean("verbose", false);
+        if (isVerbose) {
+            getLogger().setLevel(Level.FINEST);
+        }
     }
     //endregion
 

@@ -25,6 +25,7 @@ public class DisableSubCommand extends AbsYouBackupSubCommand {
         return CommandUtils.hasAnyPermission(player, new String[] {
                 String.format("youbackup.%s.disable", mProfileName),
                 String.format("youbackup.%s.*", mProfileName),
+                "youbackup.profile.*",
                 "youbackup.*"
         });
     }

@@ -12,10 +12,20 @@ public class YouBackupManager implements YouBackup {
 
     private final List<RegisteredExtension<IStorage>> mStorageExtensions = new ArrayList<>();
     private final List<RegisteredExtension<ICompressor>> mCompressorExtensions = new ArrayList<>();
+    private final String mVersion;
+
+    public YouBackupManager(String version) {
+        mVersion = version;
+    }
 
     public void clear() {
         mStorageExtensions.clear();
         mCompressorExtensions.clear();
+    }
+
+    @Override
+    public String getVersion() {
+        return mVersion;
     }
 
     @Override

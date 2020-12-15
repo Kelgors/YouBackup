@@ -84,14 +84,42 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <!-- Replace this with your package! -->
                             <shadedPattern>me.kelgors.youbackup.s3</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>software.amazon</pattern>
+                            <shadedPattern>me.kelgors.youbackup.s3.amazon</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>io.netty</pattern>
+                            <shadedPattern>me.kelgors.youbackup.s3.netty</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache</pattern>
+                            <shadedPattern>me.kelgors.youbackup.s3.apache</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.typesafe</pattern>
+                            <shadedPattern>me.kelgors.youbackup.s3.typesafe</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.slf4j</pattern>
+                            <shadedPattern>me.kelgors.youbackup.s3.slf4j</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.fasterxml</pattern>
+                            <shadedPattern>me.kelgors.youbackup.s3.fasterxml</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.reactivestreams</pattern>
+                            <shadedPattern>me.kelgors.youbackup.s3.reactivestreams</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
+                                <exclude>module-info.class</exclude>
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>

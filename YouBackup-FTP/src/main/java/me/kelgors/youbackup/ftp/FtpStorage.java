@@ -5,7 +5,6 @@ import me.kelgors.youbackup.api.storage.BasicRemoteFile;
 import me.kelgors.youbackup.api.storage.IRemoteFile;
 import me.kelgors.youbackup.api.storage.IStorage;
 import org.apache.commons.net.ftp.*;
-import org.apache.commons.net.util.TrustManagerUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
@@ -27,7 +26,6 @@ public class FtpStorage implements IStorage {
 
     private String host = null;
     private int port = 21;
-    private boolean isSecure = false;
     private String username = null;
     private String password = null;
     private String path = ".";
@@ -46,19 +44,12 @@ public class FtpStorage implements IStorage {
     @Override
     public void prepare(IBackupConfiguration config) {
         final ConfigurationSection destination = config.getDestination();
-        isSecure = destination.getBoolean("secure", false);
         host = destination.getString("host", null);
         port = destination.getInt("port", 21);
         username = destination.getString("username", null);
         password = destination.getString("password", null);
         path = destination.getString("path", "");
-        if (isSecure) {
-            FTPSClient sftp = new FTPSClient();
-            sftp.setTrustManager(TrustManagerUtils.getAcceptAllTrustManager());
-            mClient = sftp;
-        } else {
-            mClient = new FTPClient();
-        }
+        mClient = new FTPClient();
     }
 
     @Override

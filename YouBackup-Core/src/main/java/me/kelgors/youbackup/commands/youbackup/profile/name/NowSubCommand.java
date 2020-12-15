@@ -25,6 +25,7 @@ public class NowSubCommand extends AbsYouBackupSubCommand {
         return CommandUtils.hasAnyPermission(player, new String[] {
                 String.format("youbackup.%s.now", mProfileName),
                 String.format("youbackup.%s.*", mProfileName),
+                "youbackup.profile.*",
                 "youbackup.*"
         });
     }

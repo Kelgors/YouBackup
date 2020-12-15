@@ -88,8 +88,11 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <!-- Replace this with your package! -->
                             <shadedPattern>me.kelgors.youbackup.ftp</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache</pattern>
+                            <shadedPattern>me.kelgors.youbackup.ftp.apache</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

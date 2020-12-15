@@ -3,9 +3,10 @@ package me.kelgors.youbackup.api.compression;
 import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface ICompressor {
     void prepare(IBackupConfiguration config);
-    CompletableFuture<File> compress(File outputFile);
+    CompletableFuture<File> compress(List<File> inputFileList, File outputFile);
 }

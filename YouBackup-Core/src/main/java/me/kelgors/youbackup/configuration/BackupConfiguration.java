@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.lang.reflect.Proxy;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class BackupConfiguration implements IBackupConfiguration {
@@ -19,6 +20,9 @@ public class BackupConfiguration implements IBackupConfiguration {
     private final String name;
     private final int rotation;
     private boolean enabled = false;
+    private final List<String> worlds;
+    private final List<String> includes;
+    private final List<String> excludes;
     private final ConfigurationSection compression;
     private final ConfigurationSection destination;
     private Cron cron;
@@ -29,6 +33,9 @@ public class BackupConfiguration implements IBackupConfiguration {
         this.filename = profile.getString("filename", "{uuid}.zip");
         this.enabled = profile.getBoolean("enabled", false);
         this.rotation = profile.getInt("rotation", 0);
+        this.worlds = profile.getStringList("worlds");
+        this.includes = profile.getStringList("includes");
+        this.excludes = profile.getStringList("excludes");
         final ConfigurationSection compression = profile.getConfigurationSection("compression");
         if (compression != null) {
             this.compression = (ConfigurationSection) Proxy.newProxyInstance(
@@ -50,6 +57,9 @@ public class BackupConfiguration implements IBackupConfiguration {
             this.destination = null;
         }
         parseCron(profile.getString("cron"));
+        if (includes.size() + worlds.size() == 0) {
+            // empty zip
+        }
     }
 
     void parseCron(String expression) {
@@ -110,6 +120,21 @@ public class BackupConfiguration implements IBackupConfiguration {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public List<String> getWorlds() {
+        return worlds;
+    }
+
+    @Override
+    public List<String> getIncludes() {
+        return includes;
+    }
+
+    @Override
+    public List<String> getExclude() {
+        return excludes;
     }
 
     public void setEnabled(boolean enabled) {

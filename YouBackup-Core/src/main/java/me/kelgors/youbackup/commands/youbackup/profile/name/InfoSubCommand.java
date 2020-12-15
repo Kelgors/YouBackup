@@ -25,8 +25,9 @@ public class InfoSubCommand extends AbsYouBackupSubCommand {
     @Override
     public boolean checkPermission(Player player) {
         return CommandUtils.hasAnyPermission(player, new String[] {
-                String.format("youbackup.%s.info", mProfileName),
-                String.format("youbackup.%s.*", mProfileName),
+                String.format("youbackup.profile.%s.info", mProfileName),
+                String.format("youbackup.profile.%s.*", mProfileName),
+                "youbackup.profile.*",
                 "youbackup.*"
         });
     }
