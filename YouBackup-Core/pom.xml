@@ -8,7 +8,6 @@
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>youbackup-core</artifactId>
     <packaging>jar</packaging>
 
@@ -30,6 +29,7 @@
             <groupId>com.cronutils</groupId>
             <artifactId>cron-utils</artifactId>
             <version>9.0.2</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>me.kelgors</groupId>
@@ -44,20 +44,11 @@
     </dependencies>
 
     <build>
+        <defaultGoal>clean install</defaultGoal>
+        <sourceDirectory>src/</sourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>plugin.yml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>plugin.yml</exclude>
-                </excludes>
             </resource>
         </resources>
         <plugins>
@@ -73,18 +64,11 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.0</version>
-                <!-- Do not include the <configuration>...</configuration> part if you are using Sponge! -->
                 <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
@@ -97,10 +81,6 @@
                         <relocation>
                             <pattern>me.kelgors.utils</pattern>
                             <shadedPattern>me.kelgors.youbackup.utils</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.slf4j</pattern>
-                            <shadedPattern>me.kelgors.youbackup.slf4j</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

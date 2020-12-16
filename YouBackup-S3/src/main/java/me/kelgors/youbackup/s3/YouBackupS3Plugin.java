@@ -14,7 +14,7 @@ public class YouBackupS3Plugin extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        getLogger().warning("Add S3 storage to YouBackup");
+        getLogger().info("Add S3 storage to YouBackup");
         mMetrics = new Metrics(this, PLUGIN_ID);
         final RegisteredServiceProvider<YouBackup> serviceProvider = getServer().getServicesManager().getRegistration(YouBackup.class);
         if (serviceProvider != null) {

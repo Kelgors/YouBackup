@@ -8,7 +8,7 @@ import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.List;
 
-public class ConfigurationSectionHandler implements InvocationHandler {
+class ConfigurationSectionHandler implements InvocationHandler {
 
     private final ConfigurationSection mSection;
     private final List<String> BLOCK_LIST = Arrays.asList("getRoot", "getParent", "set", "createSection", "getDefaultSection", "addDefault");

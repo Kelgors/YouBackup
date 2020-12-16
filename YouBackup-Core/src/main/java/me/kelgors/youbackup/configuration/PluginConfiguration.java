@@ -6,11 +6,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Configuration {
+public class PluginConfiguration {
 
-    List<BackupConfiguration> mBackups = new ArrayList<>();
+    List<BackupProfile> mBackups = new ArrayList<>();
 
-    public Configuration(FileConfiguration configuration) {
+    public PluginConfiguration(FileConfiguration configuration) {
         parse(configuration);
     }
 
@@ -20,29 +20,29 @@ public class Configuration {
         if (backups == null) {
             return;
         }
-        final ArrayList<BackupConfiguration> backupList = new ArrayList<>();
+        final ArrayList<BackupProfile> backupList = new ArrayList<>();
         for (String name : backups.getKeys(false)) {
             ConfigurationSection section = backups.getConfigurationSection(name);
             if (section == null) continue;
-            backupList.add(new BackupConfiguration(name, section));
+            backupList.add(new BackupProfile(name, section));
         }
         mBackups = backupList;
     }
 
-    public BackupConfiguration getConfiguration(String profile) {
-        for (BackupConfiguration config : mBackups) {
+    public BackupProfile getProfile(String profile) {
+        for (BackupProfile config : mBackups) {
             if (config.getName().equals(profile)) return config;
         }
         return null;
     }
 
-    public List<BackupConfiguration> getConfigurations() {
+    public List<BackupProfile> getProfiles() {
         return mBackups;
     }
 
     public Long getNextCronAsTick() {
         Long output = null;
-        for (BackupConfiguration config : mBackups) {
+        for (BackupProfile config : mBackups) {
             if (!config.isEnabled()) continue;
             Long backupNextExecution = config.getNextExecutionRemainingTicks();
             if (backupNextExecution == null) continue;

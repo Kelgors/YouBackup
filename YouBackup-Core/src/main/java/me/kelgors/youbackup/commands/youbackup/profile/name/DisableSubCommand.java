@@ -4,7 +4,7 @@ import me.kelgors.utils.chat.ChatUtils;
 import me.kelgors.utils.commands.CommandUtils;
 import me.kelgors.youbackup.YouBackupPlugin;
 import me.kelgors.youbackup.commands.youbackup.AbsYouBackupSubCommand;
-import me.kelgors.youbackup.configuration.BackupConfiguration;
+import me.kelgors.youbackup.configuration.BackupProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,8 +23,8 @@ public class DisableSubCommand extends AbsYouBackupSubCommand {
     @Override
     public boolean checkPermission(Player player) {
         return CommandUtils.hasAnyPermission(player, new String[] {
-                String.format("youbackup.%s.disable", mProfileName),
-                String.format("youbackup.%s.*", mProfileName),
+                String.format("youbackup.profile.%s.disable", mProfileName),
+                String.format("youbackup.profile.%s.*", mProfileName),
                 "youbackup.profile.*",
                 "youbackup.*"
         });
@@ -37,7 +37,7 @@ public class DisableSubCommand extends AbsYouBackupSubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
-        final BackupConfiguration config = ((YouBackupPlugin) mPlugin).getProfileConfiguration(mProfileName);
+        final BackupProfile config = ((YouBackupPlugin) mPlugin).getProfileConfiguration(mProfileName);
         if (config == null) {
             sender.sendMessage(YouBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, mProfileName) + " in YouBackup config.yml");
             return true;
@@ -45,7 +45,7 @@ public class DisableSubCommand extends AbsYouBackupSubCommand {
         mPlugin.getConfig().set(String.format("backups.%s.enabled", mProfileName), false);
         mPlugin.saveConfig();
         config.setEnabled(false);
-        sender.sendMessage(String.format("The world %s has been disabled", ChatUtils.colorized(ChatColor.BLUE, mProfileName)));
+        sender.sendMessage(String.format("The profile %s has been disabled", ChatUtils.colorized(ChatColor.BLUE, mProfileName)));
         return true;
     }
 

@@ -1,7 +1,7 @@
 package me.kelgors.youbackup;
 
-import me.kelgors.youbackup.configuration.BackupConfiguration;
-import me.kelgors.youbackup.configuration.Configuration;
+import me.kelgors.youbackup.configuration.BackupProfile;
+import me.kelgors.youbackup.configuration.PluginConfiguration;
 
 import java.time.ZonedDateTime;
 import java.util.concurrent.CompletableFuture;
@@ -19,10 +19,10 @@ public class CronBackupRunner implements Runnable {
     public void run() {
         mPlugin.getLogger().info("Start running task");
         boolean isRunning = false;
-        final Configuration config = mPlugin.getConfiguration();
+        final PluginConfiguration config = mPlugin.getConfiguration();
         final ZonedDateTime now = ZonedDateTime.now();
         CompletableFuture<Boolean> future = CompletableFuture.completedFuture(true);
-        for (final BackupConfiguration backup : config.getConfigurations()) {
+        for (final BackupProfile backup : config.getProfiles()) {
             if (backup.isEnabled() && backup.getNextExecutionTime().isBefore(now)) {
                 future = future.thenCompose((b) -> mPlugin.save(backup.getName()).whenComplete(new OnSaveComplete(mPlugin, backup)));
                 backup.resetNextExecutionTime();
@@ -38,15 +38,15 @@ public class CronBackupRunner implements Runnable {
     private static class OnSaveComplete implements BiConsumer<Boolean, Throwable> {
 
         private final YouBackupPlugin plugin;
-        private final BackupConfiguration backup;
+        private final BackupProfile backup;
 
-        OnSaveComplete(YouBackupPlugin plugin, BackupConfiguration backup) {
+        OnSaveComplete(YouBackupPlugin plugin, BackupProfile backup) {
             this.plugin = plugin;
             this.backup = backup;
         }
         @Override
         public void accept(Boolean aBoolean, Throwable throwable) {
-            plugin.getLogger().info(String.format("Task(backup: %s) has been %s", backup.getName(), aBoolean ? "completed" : "failed"));
+            plugin.getLogger().info(String.format("Task(profile: %s) has been %s", backup.getName(), aBoolean ? "completed" : "failed"));
             if (throwable != null) throwable.printStackTrace();
         }
     }

@@ -41,27 +41,18 @@
     </dependencies>
 
     <build>
+        <defaultGoal>clean install</defaultGoal>
+        <sourceDirectory>src/</sourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>plugin.yml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>plugin.yml</exclude>
-                </excludes>
             </resource>
         </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -70,56 +61,21 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <minimizeJar>false</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>me.kelgors.youbackup.s3</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>software.amazon</pattern>
-                            <shadedPattern>me.kelgors.youbackup.s3.amazon</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>io.netty</pattern>
-                            <shadedPattern>me.kelgors.youbackup.s3.netty</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.apache</pattern>
-                            <shadedPattern>me.kelgors.youbackup.s3.apache</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.typesafe</pattern>
-                            <shadedPattern>me.kelgors.youbackup.s3.typesafe</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.slf4j</pattern>
-                            <shadedPattern>me.kelgors.youbackup.s3.slf4j</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.fasterxml</pattern>
-                            <shadedPattern>me.kelgors.youbackup.s3.fasterxml</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.reactivestreams</pattern>
-                            <shadedPattern>me.kelgors.youbackup.s3.reactivestreams</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
-                                <exclude>module-info.class</exclude>
                                 <exclude>META-INF/*.SF</exclude>
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>

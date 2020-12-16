@@ -1,9 +1,9 @@
 package me.kelgors.youbackup.storage;
 
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import me.kelgors.youbackup.api.storage.BasicRemoteFile;
 import me.kelgors.youbackup.api.storage.IRemoteFile;
-import me.kelgors.youbackup.api.storage.IStorage;
+import me.kelgors.youbackup.api.storage.Storage;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -19,12 +19,13 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
-public class FileStorage implements IStorage {
+public class FileStorage extends Storage {
+    private final Logger mLogger;
     private File mDestinationFile;
-    private final Plugin mPlugin;
 
     public FileStorage(Plugin plugin) {
-        mPlugin = plugin;
+        super(plugin);
+        mLogger = plugin.getLogger();
     }
 
     @Override
@@ -33,7 +34,7 @@ public class FileStorage implements IStorage {
     }
 
     @Override
-    public void prepare(IBackupConfiguration config) {
+    public void prepare(IBackupProfile config) {
         String path = config.getDestination().getString("path", ".");
         mDestinationFile = new File(path);
     }
@@ -42,16 +43,15 @@ public class FileStorage implements IStorage {
     public CompletableFuture<Boolean> create(File file) {
         // save is in server directory, so do nothing
         final CompletableFuture<Boolean> output = new CompletableFuture<>();
-        final Logger logger = mPlugin.getLogger();
 
-        mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, () -> {
+        runTaskAsync(() -> {
             try {
                 if (!mDestinationFile.exists() && !mDestinationFile.mkdirs()) {
-                    logger.warning(String.format("[File] Cannot create directory %s", mDestinationFile.getAbsolutePath()));
+                    mLogger.warning(String.format("[File] Cannot create directory %s", mDestinationFile.getAbsolutePath()));
                 }
                 final Path sourcePath = Paths.get(file.getAbsolutePath());
                 final Path destPath = Paths.get(mDestinationFile.getAbsolutePath(), file.getName());
-                logger.info(String.format("[File] Move %s to %s", sourcePath.toString(), destPath.toString()));
+                mLogger.info(String.format("[File] Move %s to %s", sourcePath.toString(), destPath.toString()));
                 Files.move(sourcePath, destPath);
                 output.complete(true);
             } catch (IOException e) {
@@ -66,7 +66,7 @@ public class FileStorage implements IStorage {
     @Override
     public CompletableFuture<List<IRemoteFile>> list() {
         final CompletableFuture<List<IRemoteFile>> output = new CompletableFuture<>();
-        mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, () -> {
+        runTaskAsync(() -> {
             final ArrayList<IRemoteFile> remoteFiles = new ArrayList<>();
             for (File file : Objects.requireNonNull(mDestinationFile.listFiles())) {
                 try {
@@ -84,7 +84,7 @@ public class FileStorage implements IStorage {
     @Override
     public CompletableFuture<Boolean> delete(IRemoteFile remoteFile) {
         final CompletableFuture<Boolean> output = new CompletableFuture<>();
-        mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, () -> {
+        runTaskAsync(() -> {
             final File file = new File(mDestinationFile, remoteFile.getName());
             if (file.exists()) {
                 output.complete(file.delete());

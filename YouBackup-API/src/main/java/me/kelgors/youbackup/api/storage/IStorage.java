@@ -1,6 +1,6 @@
 package me.kelgors.youbackup.api.storage;
 
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 
 import java.io.File;
 import java.util.List;
@@ -9,7 +9,11 @@ import java.util.concurrent.CompletableFuture;
 public interface IStorage {
     String getStorageType();
 
-    void prepare(IBackupConfiguration config);
+    /**
+     * This is where you get configuration parameters if needed
+     * @param profile profile information
+     */
+    void prepare(IBackupProfile profile);
 
     /**
      * List files on destination
@@ -19,7 +23,7 @@ public interface IStorage {
     CompletableFuture<List<IRemoteFile>> list();
 
     /**
-     * create a file on destination
+     * Create a file on destination
      * @param file
      * @return
      */

@@ -1,9 +1,9 @@
 package me.kelgors.youbackup.ftp;
 
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import me.kelgors.youbackup.api.storage.BasicRemoteFile;
 import me.kelgors.youbackup.api.storage.IRemoteFile;
-import me.kelgors.youbackup.api.storage.IStorage;
+import me.kelgors.youbackup.api.storage.Storage;
 import org.apache.commons.net.ftp.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
@@ -16,13 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class FtpStorage implements IStorage {
+public class FtpStorage extends Storage {
     public static final String STORAGE_TYPE = "ftp";
     private static final String ERROR_CONNECT = "Cannot connect to ftp server";
-    private final Plugin mPlugin;
 
     private String host = null;
     private int port = 21;
@@ -32,8 +32,11 @@ public class FtpStorage implements IStorage {
 
     private FTPClient mClient;
 
+    private final Logger mLogger;
+
     public FtpStorage(Plugin plugin) {
-        mPlugin = plugin;
+        super(plugin);
+        mLogger = plugin.getLogger();
     }
 
     @Override
@@ -42,7 +45,7 @@ public class FtpStorage implements IStorage {
     }
 
     @Override
-    public void prepare(IBackupConfiguration config) {
+    public void prepare(IBackupProfile config) {
         final ConfigurationSection destination = config.getDestination();
         host = destination.getString("host", null);
         port = destination.getInt("port", 21);
@@ -199,10 +202,6 @@ public class FtpStorage implements IStorage {
     }
 
     private void log(Level level, String message) {
-        mPlugin.getLogger().log(level, YouBackupFtpPlugin.SERVER_TAG + message);
-    }
-
-    private void runTaskAsync(final Runnable runnable) {
-        mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, runnable);
+        mLogger.log(level, YouBackupFtpPlugin.SERVER_TAG + message);
     }
 }

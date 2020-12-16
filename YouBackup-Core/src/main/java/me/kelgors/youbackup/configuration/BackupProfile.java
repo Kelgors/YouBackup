@@ -6,7 +6,7 @@ import com.cronutils.model.definition.CronDefinition;
 import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.lang.reflect.Proxy;
@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public class BackupConfiguration implements IBackupConfiguration {
+public class BackupProfile implements IBackupProfile {
 
     private final String filename;
     private final String name;
@@ -28,7 +28,7 @@ public class BackupConfiguration implements IBackupConfiguration {
     private Cron cron;
     private ZonedDateTime nextExecutionTime;
 
-    public BackupConfiguration(String name, ConfigurationSection profile) {
+    public BackupProfile(String name, ConfigurationSection profile) {
         this.name = name;
         this.filename = profile.getString("filename", "{uuid}.zip");
         this.enabled = profile.getBoolean("enabled", false);

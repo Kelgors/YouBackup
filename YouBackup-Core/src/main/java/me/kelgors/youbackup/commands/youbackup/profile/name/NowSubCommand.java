@@ -4,7 +4,7 @@ import me.kelgors.utils.chat.ChatUtils;
 import me.kelgors.utils.commands.CommandUtils;
 import me.kelgors.youbackup.YouBackupPlugin;
 import me.kelgors.youbackup.commands.youbackup.AbsYouBackupSubCommand;
-import me.kelgors.youbackup.configuration.BackupConfiguration;
+import me.kelgors.youbackup.configuration.BackupProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,8 +23,8 @@ public class NowSubCommand extends AbsYouBackupSubCommand {
     @Override
     public boolean checkPermission(Player player) {
         return CommandUtils.hasAnyPermission(player, new String[] {
-                String.format("youbackup.%s.now", mProfileName),
-                String.format("youbackup.%s.*", mProfileName),
+                String.format("youbackup.profile.%s.now", mProfileName),
+                String.format("youbackup.profile.%s.*", mProfileName),
                 "youbackup.profile.*",
                 "youbackup.*"
         });
@@ -37,7 +37,7 @@ public class NowSubCommand extends AbsYouBackupSubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
-        BackupConfiguration config = ((YouBackupPlugin)mPlugin).getProfileConfiguration(mProfileName);
+        BackupProfile config = ((YouBackupPlugin)mPlugin).getProfileConfiguration(mProfileName);
         if (config == null) {
             sender.sendMessage(YouBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, mProfileName) + " in YouBackup config.yml");
             return true;
@@ -45,7 +45,7 @@ public class NowSubCommand extends AbsYouBackupSubCommand {
 
         ((YouBackupPlugin) mPlugin).save(mProfileName, sender)
             .whenComplete((result, throwable) -> {
-                sender.sendMessage(String.format("%sBackup(result: %s)", YouBackupPlugin.TAG, ChatUtils.colorized(result ? ChatColor.GREEN : ChatColor.RED, String.valueOf(result))));
+                sender.sendMessage(String.format("%sTask(%s)", YouBackupPlugin.TAG, ChatUtils.colorized(result ? ChatColor.GREEN : ChatColor.RED, result ? "completed" : "failed")));
                 if (throwable != null) {
                     sender.sendMessage(YouBackupPlugin.TAG + ChatUtils.colorized(ChatColor.RED, throwable.getLocalizedMessage()));
                 }

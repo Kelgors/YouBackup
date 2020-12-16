@@ -1,7 +1,7 @@
 package me.kelgors.youbackup;
 
 import me.kelgors.youbackup.api.compression.ICompressor;
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import me.kelgors.youbackup.api.storage.IRemoteFile;
 import me.kelgors.youbackup.api.storage.IStorage;
 import org.bukkit.ChatColor;
@@ -22,10 +22,10 @@ import java.util.logging.Logger;
 public class BackupBuilder {
 
     final Plugin mPlugin;
-    CommandSender mCommandSender;
-    ICompressor mCompressor;
-    IStorage mStorage;
-    IBackupConfiguration mConfig;
+    private CommandSender mCommandSender;
+    private ICompressor mCompressor;
+    private IStorage mStorage;
+    private IBackupProfile mConfig;
 
     private List<String> mWorlds;
 
@@ -52,13 +52,13 @@ public class BackupBuilder {
         return this;
     }
 
-    public BackupBuilder setProfile(IBackupConfiguration config) {
+    public BackupBuilder setProfile(IBackupProfile config) {
         mConfig = config;
         return this;
     }
 
     private void notifySender(String message) {
-        mPlugin.getLogger().info(ChatColor.stripColor(YouBackupPlugin.TAG + message));
+        mPlugin.getLogger().info(ChatColor.stripColor(message));
         if (mCommandSender == null || !(mCommandSender instanceof Player)) return;
         mCommandSender.sendMessage(YouBackupPlugin.TAG + message);
     }

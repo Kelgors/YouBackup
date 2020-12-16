@@ -1,6 +1,6 @@
 package me.kelgors.youbackup;
 
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public class FileResolver {
     private final List<File> mIncludes;
     private final List<File> mExcludes;
 
-    public FileResolver(Plugin plugin, IBackupConfiguration config) {
+    public FileResolver(Plugin plugin, IBackupProfile config) {
         mPlugin = plugin;
         mIncludes = config.getIncludes().stream()
             .map(File::new)

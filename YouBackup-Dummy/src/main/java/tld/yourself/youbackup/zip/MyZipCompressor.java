@@ -1,23 +1,20 @@
 // MyZipCompressor.java
 package tld.yourself.youbackup.zip;
 
-import me.kelgors.youbackup.api.compression.ICompressor;
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.compression.Compressor;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
-public class MyZipCompressor implements ICompressor {
+public class MyZipCompressor extends Compressor {
 
     public static final String COMPRESSOR_TYPE = "zip";
 
     private Plugin mPlugin;
-    private List<String> mWorlds;
 
     // Will be used by YouBackup
     public MyZipCompressor(Plugin plugin) {
@@ -26,15 +23,12 @@ public class MyZipCompressor implements ICompressor {
     }
 
     @Override
-    public void prepare(IBackupConfiguration config) {
+    public void prepare(IBackupProfile config) {
         // parse the needed configuration here
-        mWorlds = config.getCompression().getList("worlds", new ArrayList<>())
-            .stream().map((s) -> (String) s)
-            .collect(Collectors.toList());
     }
 
     @Override
-    public CompletableFuture<File> compress(File outputFile) {
+    public CompletableFuture<File> compress(List<File> inputFileList, File outputFile) {
         final CompletableFuture<File> output = new CompletableFuture<>();
         // create an async task
         mPlugin.getServer().getScheduler().runTaskAsynchronously(mPlugin, () -> {

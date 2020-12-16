@@ -1,10 +1,10 @@
 // MyStorage.java
 package tld.yourself.youbackup.zip;
 
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import me.kelgors.youbackup.api.storage.BasicRemoteFile;
 import me.kelgors.youbackup.api.storage.IRemoteFile;
-import me.kelgors.youbackup.api.storage.IStorage;
+import me.kelgors.youbackup.api.storage.Storage;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-public class MyStorage implements IStorage {
+public class MyStorage extends Storage {
     public static final String STORAGE_TYPE = "gdrive";
     private final Plugin mPlugin;
     private String mHostname;
@@ -27,7 +27,7 @@ public class MyStorage implements IStorage {
     }
 
     @Override
-    public void prepare(IBackupConfiguration config) {
+    public void prepare(IBackupProfile config) {
         mHostname = config.getDestination().getString("host");
     }
 

@@ -14,17 +14,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b12a89f2-60a6-4fa8-b928-c4236db12fc9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_10.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_13_SNAPSHOT.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_13_R0_1_SNAPSHOT.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_21.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/AsyncOperation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/compression/Compressor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/utils.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/utils.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-API/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/compression/ICompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/compression/ICompressor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/configuration/IBackupConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/configuration/IBackupProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IRemoteFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IRemoteFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-API/youbackup-api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/youbackup-api.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouBackup-Core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/BackupBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/BackupBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/CronBackupRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/CronBackupRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/FileResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/FileResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/YouBackupPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/YouBackupPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/DisableSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/DisableSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/EnableSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/EnableSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/InfoSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/InfoSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/NowSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/NowSubCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/compression/ZipCompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/compression/ZipCompressor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/BackupConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/BackupProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/PluginConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/ConfigurationSectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/ConfigurationSectionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/extension/InstantiationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/extension/InstantiationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/storage/FileStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/storage/FileStorage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouBackup-Core/youbackup-core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/youbackup-core.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyZipCompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyZipCompressor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouBackup-FTP/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/FtpStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/FtpStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/YouBackupFtpPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/YouBackupFtpPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-FTP/youbackup-ftp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/youbackup-ftp.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouBackup-S3/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/S3Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/S3Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/YouBackupS3Plugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/YouBackupS3Plugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouBackup-S3/youbackup-s3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/youbackup-s3.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +65,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -94,30 +124,30 @@
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state x="3008" y="408" width="374" height="576" key="#com.intellij.ide.util.MemberChooser/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608019409895" />
-    <state x="2636" y="0" width="1117" height="1400" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1608013299042">
+    <state x="2636" y="0" width="1117" height="1400" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1608136511339">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
-    <state x="2636" y="0" width="1117" height="1400" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608013299042" />
+    <state x="2636" y="0" width="1117" height="1400" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608136511339" />
     <state x="2978" y="408" width="424" height="570" key="FileChooserDialogImpl" timestamp="1607202012041">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state x="2978" y="408" width="424" height="570" key="FileChooserDialogImpl/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1607202012041" />
-    <state width="2518" height="395" key="GridCell.Tab.0.bottom" timestamp="1608035548770">
+    <state width="2508" height="393" key="GridCell.Tab.0.bottom" timestamp="1608141564009">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.bottom/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608035548770" />
-    <state width="2518" height="395" key="GridCell.Tab.0.center" timestamp="1608035548770">
+    <state width="2508" height="393" key="GridCell.Tab.0.bottom/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608141564009" />
+    <state width="2508" height="393" key="GridCell.Tab.0.center" timestamp="1608141564009">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.center/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608035548770" />
-    <state width="2518" height="395" key="GridCell.Tab.0.left" timestamp="1608035548770">
+    <state width="2508" height="393" key="GridCell.Tab.0.center/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608141564009" />
+    <state width="2508" height="393" key="GridCell.Tab.0.left" timestamp="1608141564009">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.left/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608035548770" />
-    <state width="2518" height="395" key="GridCell.Tab.0.right" timestamp="1608035548770">
+    <state width="2508" height="393" key="GridCell.Tab.0.left/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608141564009" />
+    <state width="2508" height="393" key="GridCell.Tab.0.right" timestamp="1608141564009">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.right/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608035548770" />
+    <state width="2508" height="393" key="GridCell.Tab.0.right/1920.0.2560.1440/0.117.1920.1080@1920.0.2560.1440" timestamp="1608141564009" />
     <state x="2833" y="444" width="713" height="498" key="NewModule_or_Project.wizard" timestamp="1607201975407">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>

@@ -1,9 +1,9 @@
 package me.kelgors.youbackup.s3;
 
-import me.kelgors.youbackup.api.configuration.IBackupConfiguration;
+import me.kelgors.youbackup.api.configuration.IBackupProfile;
 import me.kelgors.youbackup.api.storage.BasicRemoteFile;
 import me.kelgors.youbackup.api.storage.IRemoteFile;
-import me.kelgors.youbackup.api.storage.IStorage;
+import me.kelgors.youbackup.api.storage.Storage;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -26,9 +26,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class S3Storage implements IStorage {
+public class S3Storage extends Storage {
 
     public static final String STORAGE_TYPE = "s3";
+    private final Logger mLogger;
     String mClientId;
     String mClientSecret;
     String mBucket;
@@ -36,11 +37,11 @@ public class S3Storage implements IStorage {
     String mRegion = "eu-west-3";
     String mProfileName;
 
-    Plugin mPlugin;
     S3AsyncClient mClient;
 
     public S3Storage(Plugin plugin) {
-        mPlugin = plugin;
+        super(plugin);
+        mLogger = plugin.getLogger();
     }
 
     @Override
@@ -49,7 +50,7 @@ public class S3Storage implements IStorage {
     }
 
     @Override
-    public void prepare(IBackupConfiguration config) {
+    public void prepare(IBackupProfile config) {
         // get config from yaml
         final ConfigurationSection destination = config.getDestination();
         mClientId = destination.getString("client_id", null);
@@ -61,10 +62,10 @@ public class S3Storage implements IStorage {
         // test connection if relevant
         AwsCredentialsProvider credentials;
         if (mProfileName != null && mProfileName.length() > 0) {
-            mPlugin.getLogger().finer("Prepare AWS with profile mode");
+            mLogger.finer("Prepare AWS with profile mode");
             credentials = ProfileCredentialsProvider.create(mProfileName);
         } else {
-            mPlugin.getLogger().finer("Prepare AWS with credentials mode");
+            mLogger.finer("Prepare AWS with credentials mode");
             credentials = StaticCredentialsProvider.create(AwsBasicCredentials.create(mClientId, mClientSecret));
         }
         // create credentials
@@ -92,7 +93,6 @@ public class S3Storage implements IStorage {
 
     @Override
     public CompletableFuture<Boolean> create(File file) {
-        final Logger logger = mPlugin.getLogger();
         final String filename = file.getName();
         // prepare request
         final PutObjectRequest request = PutObjectRequest.builder()
@@ -102,19 +102,19 @@ public class S3Storage implements IStorage {
         // prepare request-body
         final AsyncRequestBody body = AsyncRequestBody.fromFile(file);
         // upload object
-        logger.info(String.format("[S3Storage] Uploading %s to s3:%s/%s", file.getName(), mBucket, mPath));
+        mLogger.info(String.format("Uploading %s to s3:%s/%s", file.getName(), mBucket, mPath));
         final CompletableFuture<PutObjectResponse> future = mClient.putObject(request, body);
         future.whenComplete((r, t) -> {
             if (t == null && r != null) {
-                logger.info("[S3Storage] Upload success");
+                mLogger.info("Upload success");
             } else if (t != null) {
-                logger.severe("[S3Storage] Upload failure");
+                mLogger.severe("Upload failure");
                 t.printStackTrace();
             }
             if (file.delete()) {
-                logger.info("[S3Storage] Temporary backup file successfully deleted");
+                mLogger.info("Temporary backup file successfully deleted");
             } else {
-                logger.warning("[S3Storage] Unable to delete temporary backup file");
+                mLogger.warning("Unable to delete temporary backup file");
             }
         });
         return future.thenCompose(this::onS3UploadComplete);
@@ -126,7 +126,7 @@ public class S3Storage implements IStorage {
                 .key(remoteFile.getName())
                 .bucket(mBucket)
                 .build();
-        mPlugin.getLogger().info(String.format("[S3Storage] Deleting %s to s3:%s/%s", remoteFile.getName(), mBucket, mPath));
+        mLogger.info(String.format("Deleting %s to s3:%s/%s", remoteFile.getName(), mBucket, mPath));
         return mClient.deleteObject(request)
                 .thenCompose((res) -> CompletableFuture.completedFuture(res.deleteMarker()));
     }
@@ -140,10 +140,10 @@ public class S3Storage implements IStorage {
     private CompletableFuture<Boolean> onS3UploadComplete(PutObjectResponse putObjectResponse) {
         final CompletableFuture<Boolean> output = new CompletableFuture<>();
         if (putObjectResponse != null) {
-            mPlugin.getLogger().info("[S3Storage] Object uploaded. Details: " + putObjectResponse);
+            mLogger.info("Object uploaded. Details: " + putObjectResponse);
             output.complete(true);
         } else {
-            mPlugin.getLogger().info("No response from AWS:S3");
+            mLogger.info("No response from AWS:S3");
             output.complete(false);
         }
         return output;

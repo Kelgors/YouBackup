@@ -1,7 +1,9 @@
 package me.kelgors.youbackup.extension;
 
+import me.kelgors.youbackup.api.compression.Compressor;
 import me.kelgors.youbackup.api.compression.ICompressor;
 import me.kelgors.youbackup.api.storage.IStorage;
+import me.kelgors.youbackup.api.storage.Storage;
 import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Constructor;
@@ -12,7 +14,7 @@ public class InstantiationUtils {
         for (Constructor<?> ctr : klass.getConstructors()) {
             Class<?>[] args = ctr.getParameterTypes();
             if (args.length == 1 && args[0].equals(Plugin.class)) {
-                return (IStorage) ctr.newInstance(plugin);
+                return (Storage) ctr.newInstance(plugin);
             }
         }
         return null;
@@ -21,7 +23,7 @@ public class InstantiationUtils {
         for (Constructor<?> ctr : klass.getConstructors()) {
             Class<?>[] args = ctr.getParameterTypes();
             if (args.length == 1 && args[0].equals(Plugin.class)) {
-                return (ICompressor) ctr.newInstance(plugin);
+                return (Compressor) ctr.newInstance(plugin);
             }
         }
         return null;

@@ -6,8 +6,8 @@ import me.kelgors.youbackup.api.storage.IStorage;
 import me.kelgors.youbackup.commands.YouBackupCommandManager;
 import me.kelgors.youbackup.commands.youbackup.profile.name.ProfileNameSubCommand;
 import me.kelgors.youbackup.compression.ZipCompressor;
-import me.kelgors.youbackup.configuration.BackupConfiguration;
-import me.kelgors.youbackup.configuration.Configuration;
+import me.kelgors.youbackup.configuration.BackupProfile;
+import me.kelgors.youbackup.configuration.PluginConfiguration;
 import me.kelgors.youbackup.extension.InstantiationUtils;
 import me.kelgors.youbackup.extension.RegisteredExtension;
 import me.kelgors.youbackup.extension.YouBackupManager;
@@ -32,7 +32,7 @@ public class YouBackupPlugin extends JavaPlugin {
     // used by commands
     private YouBackupCommandManager mCommandManager;
     // used by Compression/Storage plugins
-    private Configuration mConfiguration;
+    private PluginConfiguration mConfiguration;
     private Metrics mMetrics;
     private YouBackupManager mYouBackupManager;
 
@@ -44,7 +44,7 @@ public class YouBackupPlugin extends JavaPlugin {
         // configuration
         saveDefaultConfig();
         setLogLevelFromConfig();
-        mConfiguration = new Configuration(getConfig());
+        mConfiguration = new PluginConfiguration(getConfig());
         // metrics
         mMetrics = new Metrics(this, PLUGIN_ID);
         // prepare commands
@@ -85,12 +85,12 @@ public class YouBackupPlugin extends JavaPlugin {
 
     //region Commands
     public void loadCommands() {
-        for (BackupConfiguration config : mConfiguration.getConfigurations()) {
+        for (BackupProfile config : mConfiguration.getProfiles()) {
             mCommandManager.getProfileCommandManager().addSubCommand(config.getName(), new ProfileNameSubCommand(this, config.getName()));
         }
     }
     public void unloadCommands() {
-        for (BackupConfiguration config : mConfiguration.getConfigurations()) {
+        for (BackupProfile config : mConfiguration.getProfiles()) {
             mCommandManager.getProfileCommandManager().removeSubCommand(config.getName());
         }
     }
@@ -101,18 +101,18 @@ public class YouBackupPlugin extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
         unloadCommands();
         this.reloadConfig();
-        mConfiguration = new Configuration(getConfig());
+        mConfiguration = new PluginConfiguration(getConfig());
         loadCommands();
         startCron();
     }
 
     //region Configuration
-    public Configuration getConfiguration() {
+    public PluginConfiguration getConfiguration() {
         return mConfiguration;
     }
 
-    public BackupConfiguration getProfileConfiguration(String profile) {
-        return mConfiguration.getConfiguration(profile);
+    public BackupProfile getProfileConfiguration(String profile) {
+        return mConfiguration.getProfile(profile);
     }
     //endregion
 
@@ -124,20 +124,22 @@ public class YouBackupPlugin extends JavaPlugin {
     public CompletableFuture<Boolean> save(String profile, CommandSender sender) {
         final Logger logger = getLogger();
         logger.info(String.format("Running profile %s", profile));
-        final BackupConfiguration config = mConfiguration.getConfiguration(profile);
+        final BackupProfile config = mConfiguration.getProfile(profile);
         if (config == null) {
             logger.warning(String.format("Missing configuration with profile %s", profile));
             return CompletableFuture.completedFuture(false);
         }
-        final RegisteredExtension<ICompressor> CompressorExt = mYouBackupManager.getRegisteredCompressor(config.getCompression().getString("type"));
-        final RegisteredExtension<IStorage> StorageExt = mYouBackupManager.getRegisteredStorage(config.getDestination().getString("type"));
+        final String compressorType = config.getCompression().getString("type");
+        final String storageType = config.getDestination().getString("type");
+        final RegisteredExtension<ICompressor> CompressorExt = mYouBackupManager.getRegisteredCompressor(compressorType);
+        final RegisteredExtension<IStorage> StorageExt = mYouBackupManager.getRegisteredStorage(storageType);
 
         if (CompressorExt == null) {
-            logger.info(String.format("Unable to find compressor for %s", config.getCompression()));
+            logger.info(String.format("Unable to find compressor for %s", compressorType));
             return CompletableFuture.completedFuture(false);
         }
         if (StorageExt == null) {
-            logger.info(String.format("Unable to find storage for %s", (String) config.getDestination().get("type")));
+            logger.info(String.format("Unable to find storage for %s", storageType));
             return CompletableFuture.completedFuture(false);
         }
 

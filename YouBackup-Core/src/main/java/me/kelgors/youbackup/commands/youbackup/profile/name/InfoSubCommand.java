@@ -4,7 +4,7 @@ import me.kelgors.utils.chat.ChatUtils;
 import me.kelgors.utils.commands.CommandUtils;
 import me.kelgors.youbackup.YouBackupPlugin;
 import me.kelgors.youbackup.commands.youbackup.AbsYouBackupSubCommand;
-import me.kelgors.youbackup.configuration.BackupConfiguration;
+import me.kelgors.youbackup.configuration.BackupProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,7 +39,7 @@ public class InfoSubCommand extends AbsYouBackupSubCommand {
 
     @Override
     public boolean execute(CommandSender sender, Command command, String commandName, String[] args) {
-        final BackupConfiguration config = ((YouBackupPlugin) mPlugin).getProfileConfiguration(mProfileName);
+        final BackupProfile config = ((YouBackupPlugin) mPlugin).getProfileConfiguration(mProfileName);
         if (config == null) {
             sender.sendMessage(YouBackupPlugin.TAG + "Unknown profile " + ChatUtils.colorized(ChatColor.BLUE, mProfileName) + " in YouBackup config.yml");
             return true;

@@ -10,12 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>youbackup-api</artifactId>
+    <distributionManagement>
+        <repository>
+            <id>CodeMC</id>
+            <name>Public Releases</name>
+            <url>https://repo.codemc.org/repository/maven-public</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <version>${spigot.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
