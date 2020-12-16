@@ -14,47 +14,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b12a89f2-60a6-4fa8-b928-c4236db12fc9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/AsyncOperation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/compression/Compressor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/Storage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils/utils.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/utils.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-API/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/compression/ICompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/compression/ICompressor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/configuration/IBackupConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/configuration/IBackupProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IRemoteFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IRemoteFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/src/main/java/me/kelgors/youbackup/api/storage/IStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-API/youbackup-api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-API/youbackup-api.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouBackup-Core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/BackupBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/BackupBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/CronBackupRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/CronBackupRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/FileResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/FileResolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/YouBackupPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/YouBackupPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/DisableSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/DisableSubCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/EnableSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/EnableSubCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/InfoSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/InfoSubCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/NowSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/commands/youbackup/profile/name/NowSubCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/compression/ZipCompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/compression/ZipCompressor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/BackupConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/BackupProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/PluginConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/ConfigurationSectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/configuration/ConfigurationSectionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/extension/InstantiationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/extension/InstantiationUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/storage/FileStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/src/main/java/me/kelgors/youbackup/storage/FileStorage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouBackup-Core/youbackup-core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Core/youbackup-core.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyZipCompressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-Dummy/src/main/java/tld/yourself/youbackup/zip/MyZipCompressor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouBackup-FTP/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/FtpStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/FtpStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/YouBackupFtpPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/src/main/java/me/kelgors/youbackup/ftp/YouBackupFtpPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-FTP/youbackup-ftp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-FTP/youbackup-ftp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-S3/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/S3Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/S3Storage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/YouBackupS3Plugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/src/main/java/me/kelgors/youbackup/s3/YouBackupS3Plugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouBackup-S3/youbackup-s3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/YouBackup-S3/youbackup-s3.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
